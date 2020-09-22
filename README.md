@@ -1,9 +1,9 @@
 # H517 Project 1: Replication of Dr. John Snow's Cholera Epidemic Map
 
 ### Relevant Links:
-https://khreda.com/teaching/2020/H517/project1/
-https://en.wikipedia.org/wiki/1854_Broad_Street_cholera_outbreak
-https://dev.to/yuribenjamin/how-to-deploy-react-app-in-github-pages-2a1f
+1. https://khreda.com/teaching/2020/H517/project1/
+2. https://en.wikipedia.org/wiki/1854_Broad_Street_cholera_outbreak
+3. https://dev.to/yuribenjamin/how-to-deploy-react-app-in-github-pages-2a1f
 
 ### Purpose: 
 As per Dr. Rada:
