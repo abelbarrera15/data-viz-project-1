@@ -3,6 +3,7 @@
 ### Relevant Links:
 https://khreda.com/teaching/2020/H517/project1/
 https://en.wikipedia.org/wiki/1854_Broad_Street_cholera_outbreak
+https://dev.to/yuribenjamin/how-to-deploy-react-app-in-github-pages-2a1f
 
 ### Purpose: 
 As per Dr. Rada:
