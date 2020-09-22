@@ -26,9 +26,9 @@ The web pages should be live online, and your submission should consist of a sin
 
 ### Toolset:
 - Will update
-  - will update
+    - will update
 
 ### Key Commands
 1. Will update
-  * Will update
+    * Will update
 
