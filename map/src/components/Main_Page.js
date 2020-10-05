@@ -13,7 +13,7 @@ const DrawStreets = () => {
     const map = d3
       .select(ref.current)
       .attr("width", "100%")
-      .attr("height", "100%")
+      .attr("height", "800")
       .call(
         d3.behavior.zoom().on("zoom", function () {
           map.attr(
@@ -52,12 +52,19 @@ const DrawStreets = () => {
         .enter()
         .append("path")
         .attr("class", "street")
-        .attr("d", lineFunction(streetsJson));
+        // .attr("d", lineFunction(streetsJson));
+        .attr(
+          "d",
+          d3.svg
+            .line()
+            .x((d) => offset(d.x))
+            .y((d) => offset(d.y))
+        );
     };
 
     MakeMap();
 
-    //svgElement.append("circle").attr("cx", 200).attr("cy", 70).attr("r", 50);
+    // svgElement.append("circle").attr("cx", 200).attr("cy", 70).attr("r", 50);
   }, []);
 
   return <svg ref={ref}></svg>;
@@ -85,7 +92,9 @@ const Thing = (
             </Row>
           </Container>
           <Row>
-            <Container>{/*<DrawStreets />*/}</Container>
+            <Container>
+              <DrawStreets />
+            </Container>
           </Row>
         </div>
       </Col>
