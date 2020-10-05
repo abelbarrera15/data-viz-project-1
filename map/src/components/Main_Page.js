@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import deathAttribs from "../data_files/deathdays.csv";
 import deathDays from "../data_files/deaths_age_sex.csv";
 import { Row, Col, Container } from "react-bootstrap";
+import { stackOffsetExpand, stackOffsetNone } from "d3";
 
 const DrawStreets = () => {
   const streetsJson = require("../data_files/streets.json");
@@ -12,64 +13,46 @@ const DrawStreets = () => {
     const map = d3
       .select(ref.current)
       .attr("width", "100%")
-      .attr("heigth", "100%");
-    //   .call(
-    //     d3.zoom().on("zoom", function () {
-    //       map.attr(
-    //         "transform",
-    //         `translate(${d3.zoom.TranslateBy}) scale(${d3.zoom.scaleBy})`
-    //       );
-    //     })
-    //   )
-    //.append("g")
+      .attr("height", "100%")
+      .call(
+        d3.behavior.zoom().on("zoom", function () {
+          map.attr(
+            "transform",
+            `translate(${d3.event.translate}) scale(${d3.event.scale})`
+          );
+        })
+      )
+      .append("g");
+
     //const svgElement = d3.select(ref.current);
 
-    //const streets = map.append("g");
-    //const pumps = map.append("g");
-    //map.append("g").attr("id", "deaths");
+    const streets = map.append("g");
+    const pumps = map.append("g");
+    map.append("g").attr("id", "deaths");
 
     //d3.select("button").on("clock",reset //need to add reset button here
 
-    const SIZE = 500;
-
-    let mapXScale = d3.scaleLinear();
-    let mapYScale = d3.scaleLinear();
-    let mapWidth = SIZE;
-    let mapHeight = SIZE;
+    const offset = (d) => {
+      const scale = 45;
+      return d * scale - scale * 3;
+    };
 
     const lineFunction = (d) => {
-      d3.line()
-        .x(function (d) {
-          return mapXScale(d.x);
-        })
-        .y(function (d) {
-          return mapYScale(d.x);
-        });
+      d3.svg
+        .line()
+        .x((d) => offset(d.x))
+        .y((d) => offset(d.y));
     };
 
     const MakeMap = () => {
-      mapXScale.domain([3, 20]).range([0, mapWidth]);
-      mapYScale.domain([3, 20]).range([mapHeight, 0]);
-
       console.log(streetsJson.length);
-
-      for (let i = 0; i < streetsJson.length; i++) {
-        console.log(streetsJson[i]);
-        map.append("path").attr("d", lineFunction(streetsJson[i]));
-      }
-      //   streets
-      //     .selectAll("path")
-      //     .data(streetsJson)
-      //     .enter()
-      //     .append("path")
-      //     .attr("class", "street")
-      //     .attr(
-      //       "d",
-      //       d3
-      //         .line()
-      //         .x((d) => d3.stackOffsetExpand(d.x))
-      //         .y((d) => d3.stackOffsetExpand(d.y))
-      //     );
+      streets
+        .selectAll("path")
+        .data(streetsJson)
+        .enter()
+        .append("path")
+        .attr("class", "street")
+        .attr("d", lineFunction(streetsJson));
     };
 
     MakeMap();
@@ -102,9 +85,7 @@ const Thing = (
             </Row>
           </Container>
           <Row>
-            <div>
-              <DrawStreets />
-            </div>
+            <Container>{/*<DrawStreets />*/}</Container>
           </Row>
         </div>
       </Col>
