@@ -37,13 +37,6 @@ const DrawStreets = () => {
       return d * scale - scale * 3;
     };
 
-    const lineFunction = (d) => {
-      d3.svg
-        .line()
-        .x((d) => offset(d.x))
-        .y((d) => offset(d.y));
-    };
-
     const MakeMap = () => {
       console.log(streetsJson.length);
       streets
@@ -52,7 +45,6 @@ const DrawStreets = () => {
         .enter()
         .append("path")
         .attr("class", "street")
-        // .attr("d", lineFunction(streetsJson));
         .attr(
           "d",
           d3.svg
