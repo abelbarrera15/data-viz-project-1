@@ -17,6 +17,7 @@ import {
   Image,
 } from "react-bootstrap";
 import Logo from "./assets/IUPUI_Logo_49.jpg";
+import Thing from "./components/Main_Page";
 
 const MainMenu = (props) => {
   return (
@@ -105,7 +106,7 @@ function App() {
 }
 
 function Home() {
-  return <h2>Home</h2>;
+  return <div>{Thing}</div>;
 }
 
 function Documentation() {
