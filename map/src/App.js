@@ -7,15 +7,7 @@ import {
   Link,
   NavLink as RouterNavLink,
 } from "react-router-dom";
-import {
-  Button,
-  Navbar,
-  Nav,
-  NavItem,
-  NavLink,
-  NavDropdown,
-  Image,
-} from "react-bootstrap";
+import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
 import Logo from "./assets/IUPUI_Logo_49.jpg";
 import Thing from "./components/Main_Page";
 
@@ -81,7 +73,6 @@ function App() {
           <Navbar.Text className="d-flex align-items-center">
             London's 1894 Cholera Epidemic
           </Navbar.Text>
-          {/*  <Navbar.Toggle onClick={this.toggle} /> */}
           <Navbar.Collapse className="justify-content-end">
             <Nav className="justify-content-end">
               <MainMenu />
