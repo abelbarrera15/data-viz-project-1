@@ -2,8 +2,9 @@ import React, { Component, useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import deathAttribs from "../data_files/deathdays.csv";
 import deathDays from "../data_files/deaths_age_sex.csv";
+import pumpsLoc from "../data_files/pumps.csv";
+import dropSvg from "../assets/droplet.svg";
 import { Row, Col, Container } from "react-bootstrap";
-import { stackOffsetExpand, stackOffsetNone } from "d3";
 
 const DrawStreets = () => {
   const streetsJson = require("../data_files/streets.json");
@@ -13,7 +14,7 @@ const DrawStreets = () => {
     const map = d3
       .select(ref.current)
       .attr("width", "100%")
-      .attr("height", "800")
+      .attr("height", "800px")
       .call(
         d3.behavior.zoom().on("zoom", function () {
           map.attr(
@@ -38,7 +39,7 @@ const DrawStreets = () => {
     };
 
     const MakeMap = () => {
-      console.log(streetsJson.length);
+      //base map d3 obj
       streets
         .selectAll("path")
         .data(streetsJson)
@@ -52,9 +53,34 @@ const DrawStreets = () => {
             .x((d) => offset(d.x))
             .y((d) => offset(d.y))
         );
+
+      d3.csv(pumpsLoc, function (data) {
+        pumps
+          .selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", (d) => offset(d.x))
+          .attr("cy", (d) => offset(d.y))
+          .attr("class", "pump");
+      });
     };
 
-    MakeMap();
+    //init map
+    const loadMakeMap = new Promise((resolve, reject) => {
+      MakeMap();
+    });
+
+    //rotate map
+    loadMakeMap.then((upd) => {
+      map.attr("transform", function () {
+        var me = map.node();
+        var x1 = me.getBBox().x + me.getBBox().width / 2; //the center x about which you want to rotate
+        var y1 = me.getBBox().y + me.getBBox().height / 2; //the center y about which you want to rotate
+
+        return `rotate(180, ${x1}, ${y1})`; //rotate 180 degrees about x and y
+      });
+    });
 
     // svgElement.append("circle").attr("cx", 200).attr("cy", 70).attr("r", 50);
   }, []);
