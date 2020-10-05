@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   NavLink as RouterNavLink,
 } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
