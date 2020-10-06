@@ -34,7 +34,10 @@ const offset = (d) => {
 };
 
 const parseDate = (date) => {
-  return d3.time.format("%d-%b").parse(date);
+  if (date !== undefined) {
+    console.log(date);
+    return d3.time.format("%d-%b").parse(date);
+  }
 };
 
 const CholeraMap = () => {
@@ -313,9 +316,10 @@ const TimeSeries = () => {
 
     const onClick = (d, index) => {
       const isActive = d3.select(ref.current).classed("timelineActive");
-
+      console.log(isActive);
       // if active link is clicked, clear all links
       if (isActive) {
+        console.log("I am active");
         d3.selectAll(".timelineActive").classed("timelineActive", false);
         updateMap({ date: null });
         return;
