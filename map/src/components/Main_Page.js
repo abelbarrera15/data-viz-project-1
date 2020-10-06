@@ -3,9 +3,7 @@ import * as d3 from "d3";
 import deathAttribs from "../data_files/deathdays.csv";
 import deathDays from "../data_files/deaths_age_sex.csv";
 import pumpsLoc from "../data_files/pumps.csv";
-import dropSvg from "../assets/droplet.svg";
 import { Row, Col, Container } from "react-bootstrap";
-import rotateY from "react-p5";
 
 const DrawStreets = () => {
   const streetsJson = require("../data_files/streets.json");
@@ -15,15 +13,16 @@ const DrawStreets = () => {
     const map = d3
       .select(ref.current)
       .attr("width", "100%")
-      .attr("height", "800%")
+      .attr("height", "800")
+      .attr("class", "map")
       .call(
         d3.behavior.zoom().on("zoom", function () {
-          var me = map.node();
-          var x1 = me.getBBox().x + me.getBBox().width / 2;
-          var y1 = me.getBBox().y + me.getBBox().height / 2;
+          //var me = map.node();
+          // var x1 = me.getBBox().x + me.getBBox().width / 2;
+          // var y1 = me.getBBox().y + me.getBBox().height / 2;
           map.attr(
             "transform",
-            `translate(${d3.event.translate}) scale(${d3.event.scale}) rotate(180, ${x1}, ${y1})`
+            `translate(${d3.event.translate}) scale(${d3.event.scale}) `
           );
         })
       )
@@ -176,23 +175,25 @@ const DrawStreets = () => {
         .text("Brewer Street");
     };
 
-    //MakeMap();
-    //init map
-    const loadMakeMap = new Promise(function (resolve) {
-      MakeMap();
-      resolve(1);
-    });
+    //load map through loader function
+    MakeMap();
 
-    //rotate map
-    loadMakeMap.then(() => {
-      map.attr("transform", function () {
-        var me = map.node();
-        var x1 = me.getBBox().x + me.getBBox().width / 2;
-        var y1 = me.getBBox().y + me.getBBox().height / 2;
-        //return `scale(1, -1)`;
-        return `rotate(180, ${x1}, ${y1})`;
-      });
-    });
+    //init map
+    // const loadMakeMap = new Promise(function (resolve) {
+    //   MakeMap();
+    //   resolve(1);
+    // });
+
+    // //rotate map
+    // loadMakeMap.then(() => {
+    //   map.attr("transform", function () {
+    //     var me = map.node();
+    //     var x1 = me.getBBox().x + me.getBBox().width / 2;
+    //     var y1 = me.getBBox().y + me.getBBox().height / 2;
+    //     //return `scale(1, -1)`;
+    //     return `rotate(0, ${x1}, ${y1})`;
+    //   });
+    // });
     //   .then(() => {
     //     map.attr("transform", function (d) {
     //       return this.getAttribute("transform") + " rotateY(180)";
