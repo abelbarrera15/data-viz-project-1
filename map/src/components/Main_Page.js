@@ -17,7 +17,7 @@ const age = [
   "age 80+",
 ];
 
-const filter = {
+let filter = {
   date: null,
   gender: null,
   age: null,
@@ -211,10 +211,13 @@ const TimeSeries = () => {
   const x = d3.scale.ordinal().rangeRoundBands([0, width], 0.05);
   const y = d3.scale.linear().range([height, 0]);
 
-  const xAxis = () =>
-    d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format("%d-%b"));
+  const xAxis = d3.svg
+    .axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(d3.time.format("%d-%b"));
 
-  const yAxis = () => d3.svg.axis().scale(y).orient("left").ticks(10);
+  const yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
 
   const ref = useRef();
   useEffect(() => {
@@ -346,6 +349,7 @@ const TimeSeries = () => {
 
 const InitDrawGraphs = () => {
   const ref = useRef();
+  const ref2 = useRef();
   useEffect(() => {
     const drawGraphs = (data) => {
       let totalGenderDeaths = [0, 0];
@@ -362,11 +366,34 @@ const InitDrawGraphs = () => {
       const x = d3.scale.ordinal().rangeRoundBands([0, width], 0.5);
       const y = d3.scale.linear().range([height, 0]);
 
-      const xAxis = () => d3.svg.axis().scale(x).orient("bottom");
+      const xAxis = d3.svg.axis().scale(x).orient("bottom");
 
-      const yAxis = () => d3.svg.axis().scale(y).orient("left").ticks(10);
+      const yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
 
       const drawGender = () => {
+        const onClick = (d, i) => {
+          const isActive = d3.select(this).classed("genderActive");
+          if (isActive) {
+            d3.selectAll(".genderActive").classed("genderActive", false);
+            updateMap({ gender: null });
+            return;
+          }
+          d3.selectAll(".genderActive").classed("genderActive", false);
+          d3.select(`#genderBar${i}`).classed("genderActive", true);
+          d3.select(`#genderLabel${i}`).classed("genderActive", true);
+          updateMap({ gender: i });
+        };
+
+        const onMouseEnter = (d, i) => {
+          d3.select(`#genderBar${i}`).classed("genderHover", true);
+          d3.select(`#genderLabel${i}`).classed("genderHover", true);
+        };
+
+        const onMouseLeave = (d, i) => {
+          d3.select(`#genderBar${i}`).classed("genderHover", false);
+          d3.select(`#genderLabel${i}`).classed("genderHover", false);
+        };
+
         const svg = d3
           .select(ref.current)
           .attr("width", width + margin.left + margin.right)
@@ -427,35 +454,35 @@ const InitDrawGraphs = () => {
           .on("click", onClick)
           .on("mouseenter", onMouseEnter)
           .on("mouseleave", onMouseLeave);
-
-        const onMouseEnter = (d, i) => {
-          d3.select(`#genderBar${i}`).classed("genderHover", true);
-          d3.select(`#genderLabel${i}`).classed("genderHover", true);
-        };
-
-        const onMouseLeave = (d, i) => {
-          d3.select(`#genderBar${i}`).classed("genderHover", false);
-          d3.select(`#genderLabel${i}`).classed("genderHover", false);
-        };
-
-        const onClick = (d, i) => {
-          const isActive = d3.select(this).classed("genderActive");
-          if (isActive) {
-            d3.selectAll(".genderActive").classed("genderActive", false);
-            updateMap({ gender: null });
-            return;
-          }
-          d3.selectAll(".genderActive").classed("genderActive", false);
-          d3.select(`#genderBar${i}`).classed("genderActive", true);
-          d3.select(`#genderLabel${i}`).classed("genderActive", true);
-          updateMap({ gender: i });
-        };
       };
       drawGender();
 
       const drawAge = () => {
+        const onMouseEnter = (d, i) => {
+          d3.select(`#ageBar${i}`).classed("genderHover", true);
+          d3.select(`#ageLabel${i}`).classed("genderHover", true);
+        };
+
+        const onMouseLeave = (d, i) => {
+          d3.select(`#ageBar${i}`).classed("genderHover", false);
+          d3.select(`#ageLabel${i}`).classed("genderHover", false);
+        };
+
+        const onClick = (d, i) => {
+          const isActive = d3.select(this).classed("ageActive");
+          if (isActive) {
+            d3.selectAll(".ageActive").classed("ageActive", false);
+            updateMap({ age: null });
+            return;
+          }
+          d3.selectAll(".ageActive").classed("ageActive", false);
+          d3.select(`#ageBar${i}`).classed("ageActive", true);
+          d3.select(`#ageLabel${i}`).classed("ageActive", true);
+          updateMap({ age: i });
+        };
+
         const svg = d3
-          .select(ref.current)
+          .select(ref2.current)
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .attr("class", "ageGraph")
@@ -511,29 +538,6 @@ const InitDrawGraphs = () => {
           .on("click", onClick)
           .on("mouseenter", onMouseEnter)
           .on("mouseleave", onMouseLeave);
-
-        const onMouseEnter = (d, i) => {
-          d3.select(`#ageBar${i}`).classed("genderHover", true);
-          d3.select(`#ageLabel${i}`).classed("genderHover", true);
-        };
-
-        const onMouseLeave = (d, i) => {
-          d3.select(`#ageBar${i}`).classed("genderHover", false);
-          d3.select(`#ageLabel${i}`).classed("genderHover", false);
-        };
-
-        const onClick = (d, i) => {
-          const isActive = d3.select(this).classed("ageActive");
-          if (isActive) {
-            d3.selectAll(".ageActive").classed("ageActive", false);
-            updateMap({ age: null });
-            return;
-          }
-          d3.selectAll(".ageActive").classed("ageActive", false);
-          d3.select(`#ageBar${i}`).classed("ageActive", true);
-          d3.select(`#ageLabel${i}`).classed("ageActive", true);
-          updateMap({ age: i });
-        };
       };
       drawAge();
     };
@@ -543,10 +547,36 @@ const InitDrawGraphs = () => {
       updateMap();
     });
   }, []);
-  return <svg ref={ref}></svg>;
+  return (
+    <div>
+      <Row>
+        <Col sm={6}>
+          <svg ref={ref}></svg>
+        </Col>
+        <Col sm={6}>
+          <svg ref={ref2}></svg>
+        </Col>
+      </Row>
+    </div>
+  );
 };
 
 const updateMap = (newFilter) => {
+  const onMouseEnter = (d) => {
+    d3.select(".tooltip").classed("showTooltip", true);
+  };
+
+  const onMouseMove = (d) => {
+    d3.select(".tooltip")
+      .html(`${gender[d.gender]}, ${age[d.age]}`)
+      .style("left", `${window.event.pageX - window.scrollX + 12}px`)
+      .style("top", `${window.event.pageY - window.scrollY - 18}px`);
+  };
+
+  const onMouseLeave = (d) => {
+    d3.select(".tooltip").classed("showTooltip", false);
+  };
+
   // update filter
   filter = { ...filter, ...newFilter };
 
@@ -575,21 +605,6 @@ const updateMap = (newFilter) => {
     .on("mouseenter", onMouseEnter)
     .on("mouseleave", onMouseLeave)
     .on("mousemove", onMouseMove);
-
-  const onMouseEnter = (d) => {
-    d3.select(".tooltip").classed("showTooltip", true);
-  };
-
-  const onMouseMove = (d) => {
-    d3.select(".tooltip")
-      .html(`${gender[d.gender]}, ${age[d.age]}`)
-      .style("left", `${window.event.pageX - window.scrollX + 12}px`)
-      .style("top", `${window.event.pageY - window.scrollY - 18}px`);
-  };
-
-  const onMouseLeave = (d) => {
-    d3.select(".tooltip").classed("showTooltip", false);
-  };
 };
 
 const MainPage = (
