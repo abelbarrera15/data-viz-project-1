@@ -8,9 +8,9 @@ import {
 } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
 import Logo from "./assets/IUPUI_Logo_49.jpg";
-import Thing from "./components/Main_Page";
+import MainPage from "./components/Main_Page";
 
-const MainMenu = (props) => {
+const MainMenu = () => {
   return (
     <NavDropdown title="Menu" id="basic-nav-dropdown" alignRight>
       <NavDropdown.Item>
@@ -55,7 +55,7 @@ const MainMenu = (props) => {
   );
 };
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div>
@@ -93,18 +93,18 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
-function Home() {
-  return <div>{Thing}</div>;
-}
+const Home = () => {
+  return <div>{MainPage}</div>;
+};
 
-function Documentation() {
+const Documentation = () => {
   return <h2>Documentation</h2>;
-}
+};
 
-function YouTube() {
+const YouTube = () => {
   return <h2>YouTube</h2>;
-}
+};
 
 export default App;
