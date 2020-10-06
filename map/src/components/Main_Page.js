@@ -5,11 +5,42 @@ import deathDays from "../data_files/deaths_age_sex.csv";
 import pumpsLoc from "../data_files/pumps.csv";
 import { Row, Col, Container } from "react-bootstrap";
 
-const DrawStreets = () => {
-  const streetsJson = require("../data_files/streets.json");
+const streetsJson = require("../data_files/streets.json");
 
+//gen consts
+const age = [
+  "age 0-10",
+  "age 11-20",
+  "age 21-40",
+  "age 41-60",
+  "age 61-80",
+  "age 80+",
+];
+
+const filter = {
+  date: null,
+  gender: null,
+  age: null,
+};
+
+const gender = ["male", "female"];
+
+let deathsData;
+
+//gen funcs
+const offset = (d) => {
+  const scale = 45;
+  return d * scale - scale * 3;
+};
+
+const parseDate = (date) => {
+  return d3.time.format("%d-%b").parse(date);
+};
+
+const CholeraMap = () => {
   const ref = useRef();
   useEffect(() => {
+    //base map initalization constant
     const map = d3
       .select(ref.current)
       .attr("width", "100%")
@@ -17,9 +48,6 @@ const DrawStreets = () => {
       .attr("class", "map")
       .call(
         d3.behavior.zoom().on("zoom", function () {
-          //var me = map.node();
-          // var x1 = me.getBBox().x + me.getBBox().width / 2;
-          // var y1 = me.getBBox().y + me.getBBox().height / 2;
           map.attr(
             "transform",
             `translate(${d3.event.translate}) scale(${d3.event.scale}) `
@@ -28,21 +56,15 @@ const DrawStreets = () => {
       )
       .append("g");
 
-    //const svgElement = d3.select(ref.current);
-
+    //append streets and pumps d3 objects (g) on map base obj.
     const streets = map.append("g");
     const pumps = map.append("g");
     map.append("g").attr("id", "deaths");
 
     //d3.select("button").on("clock",reset //need to add reset button here
 
-    const offset = (d) => {
-      const scale = 45;
-      return d * scale - scale * 3;
-    };
-
     const MakeMap = () => {
-      //base map d3 obj
+      //draw streets on map
       streets
         .selectAll("path")
         .data(streetsJson)
@@ -69,7 +91,7 @@ const DrawStreets = () => {
           .attr("class", "pump");
       });
 
-      // Work House
+      // draw work house on map
       map
         .append("g")
         .append("rect")
@@ -80,7 +102,7 @@ const DrawStreets = () => {
         .attr("height", 50)
         .style("opacity", 0.1);
 
-      // Work House label
+      // draw work house label on map
       map
         .append("g")
         .append("text")
@@ -89,7 +111,7 @@ const DrawStreets = () => {
         .attr("y", -243)
         .text("Work House");
 
-      // Brewery
+      // draw brewery on map
       map
         .append("g")
         .append("rect")
@@ -100,7 +122,7 @@ const DrawStreets = () => {
         .attr("height", 48)
         .style("opacity", 0.1);
 
-      // Brewery Label
+      // draw brewery label on map
       map
         .append("g")
         .append("text")
@@ -109,7 +131,7 @@ const DrawStreets = () => {
         .attr("y", -620)
         .text("Brewery");
 
-      // Golden Square
+      // draw golden square on map
       map
         .append("g")
         .append("rect")
@@ -120,7 +142,7 @@ const DrawStreets = () => {
         .attr("height", 50)
         .style("opacity", 0.1);
 
-      // Golden Square Label pt 1
+      // draw golden square label (first word) on map
       map
         .append("g")
         .append("text")
@@ -129,7 +151,7 @@ const DrawStreets = () => {
         .attr("y", 30)
         .text("Golden");
 
-      // Golden Square Label pt 1
+      // draw golden square label (second word) on map
       map
         .append("g")
         .append("text")
@@ -138,7 +160,7 @@ const DrawStreets = () => {
         .attr("y", 40)
         .text("Square");
 
-      // Broad street
+      // draw broad street on map
       map
         .append("g")
         .append("text")
@@ -147,7 +169,7 @@ const DrawStreets = () => {
         .attr("y", -148)
         .text("Broad Street");
 
-      // Great Marlborough Street
+      // draw great marlborough street label on map
       map
         .append("g")
         .append("text")
@@ -156,7 +178,7 @@ const DrawStreets = () => {
         .attr("y", -336)
         .text("Great Marlborough Street");
 
-      // Regent Street
+      // draw regent street label on map
       map
         .append("g")
         .append("text")
@@ -165,7 +187,7 @@ const DrawStreets = () => {
         .attr("y", -358)
         .text("Regent Street");
 
-      // Brewer Street
+      // draw brewer street label on map
       map
         .append("g")
         .append("text")
@@ -177,59 +199,195 @@ const DrawStreets = () => {
 
     //load map through loader function
     MakeMap();
-
-    //init map
-    // const loadMakeMap = new Promise(function (resolve) {
-    //   MakeMap();
-    //   resolve(1);
-    // });
-
-    // //rotate map
-    // loadMakeMap.then(() => {
-    //   map.attr("transform", function () {
-    //     var me = map.node();
-    //     var x1 = me.getBBox().x + me.getBBox().width / 2;
-    //     var y1 = me.getBBox().y + me.getBBox().height / 2;
-    //     //return `scale(1, -1)`;
-    //     return `rotate(0, ${x1}, ${y1})`;
-    //   });
-    // });
-    //   .then(() => {
-    //     map.attr("transform", function (d) {
-    //       return this.getAttribute("transform") + " rotateY(180)";
-    //     });
-    //   });
-
-    // svgElement.append("circle").attr("cx", 200).attr("cy", 70).attr("r", 50);
   }, []);
   //
   return <svg ref={ref}></svg>;
 };
 
-/* //functioning example
-const Circle = () => {
-  const ref = useRef();
-  useEffect(() => {
-    const svgElement = d3.select(ref.current);
-    svgElement.append("circle").attr("cx", 200).attr("cy", 70).attr("r", 50);
-  }, []);
-  return <svg ref={ref} />;
+const TimeSeries = () => {
+  const margin = { top: 60, right: 20, bottom: 70, left: 40 };
+  const width = 600 - margin.left - margin.right;
+  const height = 400 - margin.top - margin.bottom;
+  const x = d3.scale.ordinal().rangeRoundBands([0, width], 0.05);
+  const y = d3.scale.linear().range([height, 0]);
+
+  const xAxis = () =>
+    d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format("%d-%b"));
+
+  const yAxis = () => d3.svg.axis().scale(y).orient("left").ticks(10);
+
+  const timeline = () =>
+    d3
+      .select(".timeline")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  d3.csv(deathAttribs, function (data) {
+    data.forEach(function (d) {
+      d.date = parseDate(d.date);
+      d.deaths = +d.deaths;
+    });
+
+    x.domain(data.map((d) => d.date));
+    y.domain([0, d3.max(data, (d) => d.deaths)]);
+
+    // title
+    timeline
+      .append("text")
+      .attr("x", width / 2.5)
+      .attr("y", 0 - margin.top / 2)
+      .attr("text-anchor", "end")
+      .attr("font-family", "sans-serif")
+      .attr("font-weight", "bold")
+      .text("Number of Deaths Per Day");
+
+    // y-axis labels: num deaths
+    timeline
+      .append("g")
+      .attr("class", "axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Number of deaths");
+
+    // x-axis labels: dates
+    timeline
+      .append("g")
+      .attr("class", "axis")
+      .attr("transform", `translate(0, ${height})`)
+      .call(xAxis)
+      .selectAll("text")
+      .attr("id", (d, i) => `timelineDate${i}`)
+      .attr("class", "timelineDates")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-75)")
+      .on("mouseenter", onMouseEnter)
+      .on("mouseleave", onMouseLeave)
+      .on("click", onClick);
+
+    // graph bars
+    timeline
+      .selectAll("bar")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("id", (d, i) => `timelineBar${i}`)
+      .attr("class", "timelineBar")
+      .attr("x", (d) => x(d.date))
+      .attr("width", x.rangeBand())
+      .attr("y", (d) => y(d.deaths))
+      .attr("height", (d) => height - y(d.deaths))
+      .on("click", onClick)
+      .on("mouseenter", onMouseEnter)
+      .on("mouseleave", onMouseLeave);
+  });
+
+  //timeline interactivity
+  const onMouseEnter = (d, index) => {
+    // animate for up to & including target
+    for (let i = 0; i <= index; i++) {
+      d3.select(`#timelineBar${i}`).classed("timelineHover", true);
+      d3.select(`#timelineDate${i}`).classed("timelineHover", true);
+    }
+  };
+
+  const onMouseLeave = (d, index) => {
+    // animate for up to & including target
+    for (let i = 0; i <= index; i++) {
+      d3.select(`#timelineBar${i}`).classed("timelineHover", false);
+      d3.select(`#timelineDate${i}`).classed("timelineHover", false);
+    }
+  };
+
+  const onClick = (d, index) => {
+    const isActive = d3.select(this).classed("timelineActive");
+
+    // if active link is clicked, clear all links
+    if (isActive) {
+      d3.selectAll(".timelineActive").classed("timelineActive", false);
+      updateMap({ date: null });
+      return;
+    }
+
+    d3.selectAll(".timelineActive").classed("timelineActive", false);
+    for (let i = 0; i <= index; i++) {
+      d3.select(`#timelineBar${i}`).classed("timelineActive", true);
+    }
+
+    let newDate = d3
+      .select(`#timelineDate${index}`)
+      .classed("timelineActive", true)
+      .data()[0];
+    updateMap({ date: newDate });
+  };
 };
-*/
+
+const updateMap = (newFilter) => {
+  // update filter
+  filter = { ...filter, ...newFilter };
+
+  // clear current render
+  d3.select("#deaths").selectAll("circle").remove();
+
+  // apply filter & render
+  d3.select("#deaths")
+    .selectAll("circle")
+    .data(
+      deathsData.filter(function (d) {
+        const matchesGender =
+          filter.gender === null || d.gender == filter.gender;
+        const matchesAge = filter.age === null || d.age == filter.age;
+        const matchesDate =
+          filter.date === null ||
+          parseDate(d.date).getTime() <= filter.date.getTime();
+        return matchesGender && matchesAge && matchesDate;
+      })
+    )
+    .enter()
+    .append("circle")
+    .attr("cx", (d) => offset(d.x))
+    .attr("cy", (d) => offset(d.y))
+    .attr("class", (d) => `${gender[d.gender]} death`)
+    .on("mouseenter", onMouseEnter)
+    .on("mouseleave", onMouseLeave)
+    .on("mousemove", onMouseMove);
+
+  const onMouseEnter = (d) => {
+    d3.select(".tooltip").classed("showTooltip", true);
+  };
+
+  const onMouseMove = (d) => {
+    d3.select(".tooltip")
+      .html(`${gender[d.gender]}, ${age[d.age]}`)
+      .style("left", `${event.pageX - window.scrollX + 12}px`)
+      .style("top", `${event.pageY - window.scrollY - 18}px`);
+  };
+
+  const onMouseLeave = (d) => {
+    d3.select(".tooltip").classed("showTooltip", false);
+  };
+};
 
 const Thing = (
   <div>
     <Row>
       <Col sm={8}>
         <div>
-          <Container>
+          {/* <Container>
             <Row>
               <h1> Hello World </h1>
             </Row>
-          </Container>
+          </Container> */}
           <Row>
             <Container>
-              <DrawStreets />
+              <CholeraMap />
             </Container>
           </Row>
         </div>
