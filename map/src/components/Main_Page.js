@@ -312,7 +312,7 @@ const TimeSeries = () => {
     };
 
     const onClick = (d, index) => {
-      const isActive = d3.select(this).classed("timelineActive");
+      const isActive = d3.select(ref.current).classed("timelineActive");
 
       // if active link is clicked, clear all links
       if (isActive) {
@@ -372,7 +372,7 @@ const InitDrawGraphs = () => {
 
       const drawGender = () => {
         const onClick = (d, i) => {
-          const isActive = d3.select(this).classed("genderActive");
+          const isActive = d3.select(ref.current).classed("genderActive");
           if (isActive) {
             d3.selectAll(".genderActive").classed("genderActive", false);
             updateMap({ gender: null });
@@ -469,7 +469,7 @@ const InitDrawGraphs = () => {
         };
 
         const onClick = (d, i) => {
-          const isActive = d3.select(this).classed("ageActive");
+          const isActive = d3.select(ref2.current).classed("ageActive");
           if (isActive) {
             d3.selectAll(".ageActive").classed("ageActive", false);
             updateMap({ age: null });
