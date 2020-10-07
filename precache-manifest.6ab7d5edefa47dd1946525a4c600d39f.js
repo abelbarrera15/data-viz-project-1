@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8a696e92c09f0c77c8b183403a17eeb9",
+    "revision": "6e0eb3b43da317ba8e44df523043aa3b",
     "url": "/data-viz-project-1/index.html"
   },
   {
-    "revision": "77b3f7c88ba7336194b8",
+    "revision": "8a350f54e2d9ebf9db61",
     "url": "/data-viz-project-1/static/css/main.9124efb6.chunk.css"
   },
   {
-    "revision": "5a64295e8aa4d609b97c",
-    "url": "/data-viz-project-1/static/js/2.bb28dc81.chunk.js"
+    "revision": "90fe8e0458401fd45a0c",
+    "url": "/data-viz-project-1/static/js/2.4d688d68.chunk.js"
   },
   {
-    "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/data-viz-project-1/static/js/2.bb28dc81.chunk.js.LICENSE.txt"
+    "revision": "8ebb70227fec3b61ad3af3d99ebe8940",
+    "url": "/data-viz-project-1/static/js/2.4d688d68.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "77b3f7c88ba7336194b8",
-    "url": "/data-viz-project-1/static/js/main.d8a30c3a.chunk.js"
+    "revision": "8a350f54e2d9ebf9db61",
+    "url": "/data-viz-project-1/static/js/main.b68f61c0.chunk.js"
   },
   {
     "revision": "87acf1fb8023c124ff57",
@@ -34,6 +34,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "34591a292ad5c9bc0e068653b3c18523",
     "url": "/data-viz-project-1/static/media/deaths_age_sex.34591a29.csv"
+  },
+  {
+    "revision": "a223508aa123981cd71a4bc6812ee435",
+    "url": "/data-viz-project-1/static/media/documentation.a223508a.md"
   },
   {
     "revision": "729cd622993bf239ab344bde34ea485f",

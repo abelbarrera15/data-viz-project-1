@@ -1,26 +1,27 @@
 {
   "files": {
     "main.css": "/data-viz-project-1/static/css/main.9124efb6.chunk.css",
-    "main.js": "/data-viz-project-1/static/js/main.d8a30c3a.chunk.js",
-    "main.js.map": "/data-viz-project-1/static/js/main.d8a30c3a.chunk.js.map",
+    "main.js": "/data-viz-project-1/static/js/main.b68f61c0.chunk.js",
+    "main.js.map": "/data-viz-project-1/static/js/main.b68f61c0.chunk.js.map",
     "runtime-main.js": "/data-viz-project-1/static/js/runtime-main.945ca11a.js",
     "runtime-main.js.map": "/data-viz-project-1/static/js/runtime-main.945ca11a.js.map",
-    "static/js/2.bb28dc81.chunk.js": "/data-viz-project-1/static/js/2.bb28dc81.chunk.js",
-    "static/js/2.bb28dc81.chunk.js.map": "/data-viz-project-1/static/js/2.bb28dc81.chunk.js.map",
+    "static/js/2.4d688d68.chunk.js": "/data-viz-project-1/static/js/2.4d688d68.chunk.js",
+    "static/js/2.4d688d68.chunk.js.map": "/data-viz-project-1/static/js/2.4d688d68.chunk.js.map",
     "index.html": "/data-viz-project-1/index.html",
-    "precache-manifest.f7dadf7e7c4c760b05820b36f3e162d9.js": "/data-viz-project-1/precache-manifest.f7dadf7e7c4c760b05820b36f3e162d9.js",
+    "precache-manifest.6ab7d5edefa47dd1946525a4c600d39f.js": "/data-viz-project-1/precache-manifest.6ab7d5edefa47dd1946525a4c600d39f.js",
     "service-worker.js": "/data-viz-project-1/service-worker.js",
     "static/css/main.9124efb6.chunk.css.map": "/data-viz-project-1/static/css/main.9124efb6.chunk.css.map",
-    "static/js/2.bb28dc81.chunk.js.LICENSE.txt": "/data-viz-project-1/static/js/2.bb28dc81.chunk.js.LICENSE.txt",
+    "static/js/2.4d688d68.chunk.js.LICENSE.txt": "/data-viz-project-1/static/js/2.4d688d68.chunk.js.LICENSE.txt",
     "static/media/IUPUI_Logo_49.jpg": "/data-viz-project-1/static/media/IUPUI_Logo_49.a61793db.jpg",
     "static/media/deathdays.csv": "/data-viz-project-1/static/media/deathdays.91268c88.csv",
     "static/media/deaths_age_sex.csv": "/data-viz-project-1/static/media/deaths_age_sex.34591a29.csv",
+    "static/media/documentation.md": "/data-viz-project-1/static/media/documentation.a223508a.md",
     "static/media/pumps.csv": "/data-viz-project-1/static/media/pumps.729cd622.csv"
   },
   "entrypoints": [
     "static/js/runtime-main.945ca11a.js",
-    "static/js/2.bb28dc81.chunk.js",
+    "static/js/2.4d688d68.chunk.js",
     "static/css/main.9124efb6.chunk.css",
-    "static/js/main.d8a30c3a.chunk.js"
+    "static/js/main.b68f61c0.chunk.js"
   ]
 }
