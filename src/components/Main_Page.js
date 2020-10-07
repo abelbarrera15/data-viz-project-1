@@ -377,35 +377,6 @@ const InitDrawGraphs = () => {
         [0, 0],
         [0, 0],
       ];
-      let totalAgeDeathsMaleFemaleDict = [
-        {
-          Gender: "Male",
-          "age 0-10": 0,
-          "age 11-20": 0,
-          "age 21-40": 0,
-          "age 41-60": 0,
-          "age 61-80": 0,
-          "age 80+": 0,
-        },
-        {
-          Gender: "Female",
-          "age 0-10": 0,
-          "age 11-20": 0,
-          "age 21-40": 0,
-          "age 41-60": 0,
-          "age 61-80": 0,
-          "age 80+": 0,
-        },
-      ];
-
-      let totalAgeDeathsMaleFemaleDictGroupKey = [
-        { grouping: "age 0-10", male: 0, female: 0 },
-        { grouping: "age 11-20", male: 0, female: 0 },
-        { grouping: "age 21-40", male: 0, female: 0 },
-        { grouping: "age 41-60", male: 0, female: 0 },
-        { grouping: "age 61-80", male: 0, female: 0 },
-        { grouping: "age 80+", male: 0, female: 0 },
-      ];
 
       data.forEach(function (data) {
         totalGenderDeaths[data.gender]++;
@@ -414,13 +385,7 @@ const InitDrawGraphs = () => {
 
       data.forEach(function (data) {
         totalAgeDeathsMaleFemale[data.age][data.gender]++;
-        let indexer = age[data.age];
-        totalAgeDeathsMaleFemaleDict[data.gender][indexer]++;
-        let indexerkey = gender[data.gender];
-        totalAgeDeathsMaleFemaleDictGroupKey[data.age][indexerkey]++;
       });
-
-      //console.log(totalAgeDeathsMaleFemaleDict);
 
       const margin = { top: 60, right: 20, bottom: 70, left: 40 },
         width = 300 - margin.left - margin.right,
@@ -433,178 +398,6 @@ const InitDrawGraphs = () => {
 
       const yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
 
-      const drawGender = () => {
-        const onClick = (d, i) => {
-          const isActive = d3.select(ref.current).classed("genderActive");
-          if (isActive) {
-            d3.selectAll(".genderActive").classed("genderActive", false);
-            updateMap({ gender: null });
-            return;
-          }
-          d3.selectAll(".genderActive").classed("genderActive", false);
-          d3.select(`#genderBar${i}`).classed("genderActive", true);
-          d3.select(`#genderLabel${i}`).classed("genderActive", true);
-          updateMap({ gender: i });
-        };
-
-        const onMouseEnter = (d, i) => {
-          d3.select(`#genderBar${i}`).classed("genderHover", true);
-          d3.select(`#genderLabel${i}`).classed("genderHover", true);
-        };
-
-        const onMouseLeave = (d, i) => {
-          d3.select(`#genderBar${i}`).classed("genderHover", false);
-          d3.select(`#genderLabel${i}`).classed("genderHover", false);
-        };
-
-        const svg = d3
-          .select(ref.current)
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .attr("class", "genderGraph")
-          .append("g")
-          .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        //label information
-        x.domain(gender);
-        y.domain([0, d3.max(totalGenderDeaths)]);
-
-        svg
-          .append("g")
-          .attr("class", "x axis")
-          .attr("transform", `translate(0, ${height})`)
-          .call(xAxis)
-          .selectAll("text")
-          .attr("id", (d, i) => `genderLabel${i}`)
-          .style("text-anchor", "end")
-          .attr("dx", "-.8em")
-          .attr("dy", "-.55em")
-          .attr("transform", "rotate(-75)")
-          .on("click", onClick)
-          .on("mouseenter", onMouseEnter)
-          .on("mouseleave", onMouseLeave);
-
-        svg
-          .append("g")
-          .attr("class", "y axis")
-          .call(yAxis)
-          .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Number of deaths");
-
-        svg
-          .append("text")
-          .attr("x", 0)
-          .attr("y", 0 - margin.top / 2)
-          .attr("font-family", "sans-serif")
-          .attr("font-weight", "bold")
-          .text("Deaths by Gender");
-
-        svg
-          .selectAll("bar")
-          .data(totalGenderDeaths)
-          .enter()
-          .append("rect")
-          .attr("id", (d, i) => `genderBar${i}`)
-          .attr("class", (d, i) => gender[i])
-          .attr("x", (d, i) => x(gender[i]))
-          .attr("y", (d) => y(d))
-          .attr("width", x.rangeBand())
-          .attr("height", (d) => height - y(d))
-          .on("click", onClick)
-          .on("mouseenter", onMouseEnter)
-          .on("mouseleave", onMouseLeave);
-      };
-      //put back in if not working
-      //drawGender();
-
-      const drawAge = () => {
-        const onMouseEnter = (d, i) => {
-          d3.select(`#ageBar${i}`).classed("genderHover", true);
-          d3.select(`#ageLabel${i}`).classed("genderHover", true);
-        };
-
-        const onMouseLeave = (d, i) => {
-          d3.select(`#ageBar${i}`).classed("genderHover", false);
-          d3.select(`#ageLabel${i}`).classed("genderHover", false);
-        };
-
-        const onClick = (d, i) => {
-          const isActive = d3.select(ref2.current).classed("ageActive");
-          if (isActive) {
-            d3.selectAll(".ageActive").classed("ageActive", false);
-            updateMap({ age: null });
-            return;
-          }
-          d3.selectAll(".ageActive").classed("ageActive", false);
-          d3.select(`#ageBar${i}`).classed("ageActive", true);
-          d3.select(`#ageLabel${i}`).classed("ageActive", true);
-          updateMap({ age: i });
-        };
-
-        const svg = d3
-          .select(ref2.current)
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .attr("class", "ageGraph")
-          .append("g")
-          .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        //label information
-        x.domain(age);
-        y.domain([0, d3.max(totalAgeDeaths)]);
-
-        svg
-          .append("g")
-          .attr("class", "x axis")
-          .attr("transform", `translate(0, ${height})`)
-          .call(xAxis)
-          .selectAll("text")
-          .attr("id", (d, i) => `ageLabel${i}`)
-          .style("text-anchor", "end")
-          .attr("dx", "-.8em")
-          .attr("dy", "-.55em")
-          .attr("transform", "rotate(-75)");
-
-        svg
-          .append("g")
-          .attr("class", "y axis")
-          .call(yAxis)
-          .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Number of deaths");
-
-        svg
-          .append("text")
-          .attr("x", 0)
-          .attr("y", 0 - margin.top / 2)
-          .attr("font-family", "sans-serif")
-          .attr("font-weight", "bold")
-          .text("Deaths by Age Range");
-
-        svg
-          .selectAll("bar")
-          .data(totalAgeDeaths)
-          .enter()
-          .append("rect")
-          .attr("id", (d, i) => `ageBar${i}`)
-          .attr("class", "ageBar")
-          .attr("x", (d, i) => x(age[i]))
-          .attr("y", (d) => y(d))
-          .attr("width", x.rangeBand())
-          .attr("height", (d) => height - y(d))
-          .on("click", onClick)
-          .on("mouseenter", onMouseEnter)
-          .on("mouseleave", onMouseLeave);
-      };
-      //put back in if not working
-      //drawAge();
       const drawGenderAndAge = () => {
         const onMouseEnter = (d, i) => {
           d3.select(`#ageBar${i}`).classed("genderHover", true);
@@ -672,38 +465,7 @@ const InitDrawGraphs = () => {
           .attr("font-weight", "bold")
           .text("Deaths by Age Range");
 
-        // console.log("total age deaths");
-        // console.log(totalAgeDeaths);
-        // console.log("total age deaths male female");
-        // console.log(totalAgeDeathsMaleFemale);
-
-        const groupKey = "grouping";
-        const keys = age;
-
-        const data = totalAgeDeathsMaleFemaleDictGroupKey;
-
         let data_indexer = null;
-
-        // svg
-        //   .selectAll("bar")
-        //   .data(totalAgeDeaths)
-        //   .enter()
-        //   .append("rect")
-        //   .attr("id", function (d, i) {
-        //     console.log("i");
-        //     console.log(i);
-        //     console.log("d");
-        //     console.log(d);
-        //     return `ageBar${i}`;
-        //   })
-        //   .attr("class", "ageBar")
-        //   .attr("x", (d, i) => x(age[i]))
-        //   .attr("y", (d) => y(d))
-        //   .attr("width", x.rangeBand())
-        //   .attr("height", (d) => height - y(d))
-        //   .on("click", onClick)
-        //   .on("mouseenter", onMouseEnter)
-        //   .on("mouseleave", onMouseLeave);
 
         totalAgeDeathsMaleFemale.forEach(function (i1) {
           let internal_indexer = null;
@@ -760,88 +522,6 @@ const InitDrawGraphs = () => {
               .on("mouseleave", onMouseLeave);
           });
         });
-
-        // svg
-        //   .selectAll("bar")
-        //   .data(
-        //     totalAgeDeathsMaleFemale.forEach(function (temp) {
-        //       //console.log(temp);
-        //       if (data_indexer === null) {
-        //         data_indexer = 0;
-        //       } else {
-        //         data_indexer = data_indexer + 1;
-        //       }
-        //       console.log(data_indexer);
-        //       return temp;
-        //     })
-        //   )
-        //   .enter()
-        //   .append("rect")
-        //   .attr("id", function (temp) {
-        //     console.log("checking the data");
-        //     console.log(data_indexer);
-        //     return `ageBar${data_indexer}`;
-        //   })
-        //   .attr("class", "ageBar")
-        //   .attr("x", (d, i) => x(age[data_indexer]))
-        //   .attr("y", function (d) {
-        //     d.foreach(function (d_d) {
-        //       return y(d_d);
-        //     });
-        //   })
-        //   .attr("width", x.rangeBand())
-        //   .attr("height", function (d) {
-        //     d.foreach(function (d_d) {
-        //       return height - y(d_d);
-        //     });
-        //   })
-        //   .on("click", onClick)
-        //   .on("mouseenter", onMouseEnter)
-        //   .on("mouseleave", onMouseLeave);
-
-        // svg
-        //   .append("g")
-        //   .selectAll("g")
-        //   .data(totalAgeDeathsMaleFemaleDict)
-        //   .enter()
-        //   .selectAll("bar") //check if I need the transform d part
-        //   .data((d) => age.map((key) => ({ key, value: d[key] })))
-        //   .join("rect")
-        //   //.enter()
-        //   //.append("rect")
-        //   // .attr("id", function (d, i) {
-        //   //   return `ageBar${i[0]}`;
-        //   // })
-        //   .attr("class", "ageBar")
-        //   .attr("x", (d) => x(d.key))
-        //   .attr("y", function (d) {
-        //     return y(d.value);
-        //   })
-        //   .attr("width", x.rangeBand())
-        //   .attr("height", (d) => height - y(d.value));
-        // // .on("click", onClick)
-        // // .on("mouseenter", onMouseEnter)
-        // // .on("mouseleave", onMouseLeave);
-
-        // svg
-        //   .append("g")
-        //   .selectAll("g")
-        //   .data(totalAgeDeathsMaleFemale)
-        //   .enter()
-        //   .append("rect")
-        //   .attr("id", function (d, i) {
-        //     return `ageBar${i[1]}`;
-        //   })
-        //   .attr("class", "ageBar")
-        //   .attr("x", (d, i) => x(age[i]))
-        //   .attr("y", function (d) {
-        //     return y(d[1]);
-        //   })
-        //   .attr("width", x.rangeBand())
-        //   .attr("height", (d) => height - y(d[1]))
-        //   .on("click", onClick)
-        //   .on("mouseenter", onMouseEnter)
-        //   .on("mouseleave", onMouseLeave);
       };
       drawGenderAndAge();
     };
