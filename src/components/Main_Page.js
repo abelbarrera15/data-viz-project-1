@@ -364,7 +364,6 @@ const TimeSeries = () => {
 
 const InitDrawGraphs = () => {
   const ref = useRef();
-  const ref2 = useRef();
   useEffect(() => {
     const drawGraphs = (data) => {
       let totalGenderDeaths = [0, 0];
@@ -388,8 +387,8 @@ const InitDrawGraphs = () => {
       });
 
       const margin = { top: 60, right: 20, bottom: 70, left: 40 },
-        width = 300 - margin.left - margin.right,
-        height = 350 - margin.top - margin.bottom;
+        width = 400 - margin.left - margin.right,
+        height = 450 - margin.top - margin.bottom;
 
       const x = d3.scale.ordinal().rangeRoundBands([0, width], 0.5);
       const y = d3.scale.linear().range([height, 0]);
@@ -399,29 +398,6 @@ const InitDrawGraphs = () => {
       const yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
 
       const drawGenderAndAge = () => {
-        const onMouseEnter = (d, i) => {
-          d3.select(`#ageBar${i}`).classed("genderHover", true);
-          d3.select(`#ageLabel${i}`).classed("genderHover", true);
-        };
-
-        const onMouseLeave = (d, i) => {
-          d3.select(`#ageBar${i}`).classed("genderHover", false);
-          d3.select(`#ageLabel${i}`).classed("genderHover", false);
-        };
-
-        const onClick = (d, i) => {
-          const isActive = d3.select(ref2.current).classed("ageActive");
-          if (isActive) {
-            d3.selectAll(".ageActive").classed("ageActive", false);
-            updateMap({ age: null });
-            return;
-          }
-          d3.selectAll(".ageActive").classed("ageActive", false);
-          d3.select(`#ageBar${i}`).classed("ageActive", true);
-          d3.select(`#ageLabel${i}`).classed("ageActive", true);
-          updateMap({ age: i });
-        };
-
         const svg = d3
           .select(ref.current)
           .attr("width", width + margin.left + margin.right)
@@ -432,7 +408,10 @@ const InitDrawGraphs = () => {
 
         //label information
         x.domain(age);
-        y.domain([0, d3.max(totalAgeDeaths)]);
+        y.domain([
+          0,
+          d3.max(totalAgeDeaths) - parseInt(d3.max(totalAgeDeaths) / 2.5),
+        ]);
 
         svg
           .append("g")
@@ -463,7 +442,7 @@ const InitDrawGraphs = () => {
           .attr("y", 0 - margin.top / 2)
           .attr("font-family", "sans-serif")
           .attr("font-weight", "bold")
-          .text("Deaths by Age Range");
+          .text("Deaths by Age Range and Gender");
 
         let data_indexer = null;
 
@@ -487,39 +466,29 @@ const InitDrawGraphs = () => {
               .enter()
               .append("rect")
               .attr("id", function (d) {
-                console.log(
-                  `ageBar${parseInt(
-                    data_indexer.toString() + internal_indexer.toString()
-                  )}`
-                );
                 return `ageBar${parseInt(
                   data_indexer.toString() + internal_indexer.toString()
                 )}`;
               })
-              .attr("class", "ageBar")
               .attr("x", function (d) {
-                console.log("X:");
-                console.log("internal_indexer:" + internal_indexer);
-
                 if (internal_indexer === 0) {
-                  console.log(x(age[data_indexer]));
                   return x(age[data_indexer]);
                 } else {
-                  console.log(x(age[data_indexer]) + 10);
                   return x(age[data_indexer]) + 15;
                 }
               })
               .attr("y", function (d) {
-                //console.log(d);
-                console.log("y:");
-                console.log(y(d));
                 return y(d);
               })
               .attr("width", x.rangeBand())
               .attr("height", (d) => height - y(d))
-              .on("click", onClick)
-              .on("mouseenter", onMouseEnter)
-              .on("mouseleave", onMouseLeave);
+              .attr("fill", function (d) {
+                if (internal_indexer === 0) {
+                  return "darkblue";
+                } else {
+                  return "coral";
+                }
+              });
           });
         });
       };
@@ -548,24 +517,11 @@ const InitDrawGraphs = () => {
         saver = summer;
       });
       deathsData = temp_set;
-      //console.log(temp_set);
       drawGraphs(temp_set);
       updateMap();
     });
   }, []);
-  return (
-    <svg ref={ref}></svg>
-    // <div>
-    //   <Row>
-    //     <Col sm={6}>
-    //       <svg ref={ref}></svg>
-    //     </Col>
-    //     <Col sm={6}>
-    //       <svg ref={ref2}></svg>
-    //     </Col>
-    //   </Row>
-    // </div>
-  );
+  return <svg ref={ref}></svg>;
 };
 
 const updateMap = (newFilter) => {
