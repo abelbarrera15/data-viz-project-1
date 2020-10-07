@@ -115,43 +115,6 @@ a {
   }
 }
 
-.card-tooltip {
-  &.bs-tooltip-bottom {
-    .arrow {
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        bottom: -2px;
-        width: 0;
-        height: 0;
-        border: 10px solid transparent;
-        border-bottom-color: $white;
-      }
-
-      &:before {
-        border-width: 0 10px 10px;
-      }
-    }
-  }
-
-  &.tooltip {
-    background: none;
-    height: auto;
-    width: 300px;
-    margin-left: -3px !important;
-    margin-top: 1px !important;
-  }
-
-  .tooltip-inner {
-    background-color: $white;
-    border: 1px solid $dark-blue;
-    color: $black;
-    font-size: 14px;
-    max-width: 300px;
-  }
-}
-
 .card-wrapper {
   margin-bottom: 15px;
 
@@ -171,18 +134,6 @@ a {
 }
 
 /* GENERAL CHART STYLES */
-.chart-tooltip {
-  border: 1px solid #ccc;
-  padding: 5px;
-
-  h5 {
-    font-size: 15px;
-  }
-
-  p {
-    font-size: 13px;
-  }
-}
 .recharts-text {
   font-size: 12px;
 
@@ -533,9 +484,9 @@ main {
   left: 0;
   padding: 2px;
   position: fixed;
-  display: none;
-  background-color: white;
-  font-size: 12px;
+  display: contents;
+  background-color: red;
+  font-size: 20px;
 }
 
 .showTooltip {

@@ -43,6 +43,7 @@ const parseDate = (date) => {
 
 const CholeraMap = () => {
   const ref = useRef();
+  const margin = { top: 60, right: 20, bottom: 70, left: 40 };
   useEffect(() => {
     //base map initalization constant
     const map = d3
@@ -199,21 +200,53 @@ const CholeraMap = () => {
         .attr("x", 424)
         .attr("y", 160)
         .text("Brewer Street");
+
+      map
+        .append("g")
+        .append("text")
+        .attr("x", 0)
+        .attr("y", -660)
+        .attr("font-family", "sans-serif")
+        .attr("font-weight", "bold")
+        .attr(
+          "transform",
+          `translate(${margin.left}, ${margin.top}) scale(1, -1)`
+        )
+        .text("Cholera Map");
     };
 
     //load map through loader function
     MakeMap();
-  }, []);
+  }, [margin.left, margin.top]);
   //
   return (
     <div>
-      <svg className="map" ref={ref}></svg>
-      <div className="legend">
-        <div className="pumpLabel">Pumps</div>
-        <div className="maleLabel">Male Deaths</div>
-        <div className="femaleLabel">Female Deaths</div>
-      </div>
-      <div className="tooltip"></div>
+      <Row>
+        <h6 style={{ marginTop: "20px", marginLeft: "20px" }}>Map Tooltip</h6>
+      </Row>
+      <Row>
+        <div
+          style={{
+            marginLeft: "20px",
+            marginTop: "5px",
+            width: "50%",
+            height: "40px",
+            paddingLeft: "30px",
+            border: "2px solid black",
+          }}
+        >
+          <div style={{ paddingLeft: "0px" }} className="tooltip"></div>
+        </div>
+      </Row>
+
+      <Row>
+        <svg className="map" ref={ref}></svg>
+        <div className="legend">
+          <div className="pumpLabel">Pumps</div>
+          <div className="maleLabel">Male Deaths</div>
+          <div className="femaleLabel">Female Deaths</div>
+        </div>
+      </Row>
     </div>
   );
 };
@@ -526,24 +559,14 @@ const InitDrawGraphs = () => {
 
 const updateMap = (newFilter) => {
   const onMouseEnter = (d) => {
-    console.log("on mouse enter");
     d3.select(".tooltip").classed("showTooltip", true);
   };
 
   const onMouseMove = (d) => {
-    console.log("on move move");
-    // console.log("cannot enter here");
-    // const test = d3.select(".tooltip");
-    // console.log(test);
-    console.log(d3.event.pageX);
-    console.log(window.scrollX);
-    console.log(gender[d.gender]);
     d3.select(".tooltip")
       .html(`${gender[d.gender]}, ${age[d.age]}`)
-      //.style("left", `${d3.event.pageX - window.scrollX + 12}`)
-      .style("left", "10px")
-      //.style("top", `${d3.event.pageY - window.scrollY - 18}`);
-      .style("top", "10px");
+      .style("left", `${d3.event.pageX - window.scrollX + 12}px`)
+      .style("top", `${d3.event.pageY - window.scrollY - 18}px`);
   };
 
   const onMouseLeave = (d) => {
