@@ -207,10 +207,6 @@ const CholeraMap = () => {
   //
   return (
     <div>
-      {/* <header class="mapHeader">
-        <h2>some header</h2>
-      </header> */}
-      {/* <h2>someHeader</h2> */}
       <svg className="map" ref={ref}></svg>
       <div className="legend">
         <div className="pumpLabel">Pumps</div>
@@ -266,7 +262,7 @@ const TimeSeries = () => {
         .attr("text-anchor", "end")
         .attr("font-family", "sans-serif")
         .attr("font-weight", "bold")
-        .text("Number of Deaths Per Day");
+        .text("Deaths Over Time Barchart");
 
       // y-axis labels: num deaths
       timeline
@@ -373,10 +369,58 @@ const InitDrawGraphs = () => {
     const drawGraphs = (data) => {
       let totalGenderDeaths = [0, 0];
       let totalAgeDeaths = [0, 0, 0, 0, 0, 0];
+      let totalAgeDeathsMaleFemale = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+      ];
+      let totalAgeDeathsMaleFemaleDict = [
+        {
+          Gender: "Male",
+          "age 0-10": 0,
+          "age 11-20": 0,
+          "age 21-40": 0,
+          "age 41-60": 0,
+          "age 61-80": 0,
+          "age 80+": 0,
+        },
+        {
+          Gender: "Female",
+          "age 0-10": 0,
+          "age 11-20": 0,
+          "age 21-40": 0,
+          "age 41-60": 0,
+          "age 61-80": 0,
+          "age 80+": 0,
+        },
+      ];
+
+      let totalAgeDeathsMaleFemaleDictGroupKey = [
+        { grouping: "age 0-10", male: 0, female: 0 },
+        { grouping: "age 11-20", male: 0, female: 0 },
+        { grouping: "age 21-40", male: 0, female: 0 },
+        { grouping: "age 41-60", male: 0, female: 0 },
+        { grouping: "age 61-80", male: 0, female: 0 },
+        { grouping: "age 80+", male: 0, female: 0 },
+      ];
+
       data.forEach(function (data) {
         totalGenderDeaths[data.gender]++;
         totalAgeDeaths[data.age]++;
       });
+
+      data.forEach(function (data) {
+        totalAgeDeathsMaleFemale[data.age][data.gender]++;
+        let indexer = age[data.age];
+        totalAgeDeathsMaleFemaleDict[data.gender][indexer]++;
+        let indexerkey = gender[data.gender];
+        totalAgeDeathsMaleFemaleDictGroupKey[data.age][indexerkey]++;
+      });
+
+      //console.log(totalAgeDeathsMaleFemaleDict);
 
       const margin = { top: 60, right: 20, bottom: 70, left: 40 },
         width = 300 - margin.left - margin.right,
@@ -474,7 +518,8 @@ const InitDrawGraphs = () => {
           .on("mouseenter", onMouseEnter)
           .on("mouseleave", onMouseLeave);
       };
-      drawGender();
+      //put back in if not working
+      //drawGender();
 
       const drawAge = () => {
         const onMouseEnter = (d, i) => {
@@ -558,7 +603,230 @@ const InitDrawGraphs = () => {
           .on("mouseenter", onMouseEnter)
           .on("mouseleave", onMouseLeave);
       };
-      drawAge();
+      //put back in if not working
+      //drawAge();
+      const drawGenderAndAge = () => {
+        const onMouseEnter = (d, i) => {
+          d3.select(`#ageBar${i}`).classed("genderHover", true);
+          d3.select(`#ageLabel${i}`).classed("genderHover", true);
+        };
+
+        const onMouseLeave = (d, i) => {
+          d3.select(`#ageBar${i}`).classed("genderHover", false);
+          d3.select(`#ageLabel${i}`).classed("genderHover", false);
+        };
+
+        const onClick = (d, i) => {
+          const isActive = d3.select(ref2.current).classed("ageActive");
+          if (isActive) {
+            d3.selectAll(".ageActive").classed("ageActive", false);
+            updateMap({ age: null });
+            return;
+          }
+          d3.selectAll(".ageActive").classed("ageActive", false);
+          d3.select(`#ageBar${i}`).classed("ageActive", true);
+          d3.select(`#ageLabel${i}`).classed("ageActive", true);
+          updateMap({ age: i });
+        };
+
+        const svg = d3
+          .select(ref.current)
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .attr("class", "ageGraph")
+          .append("g")
+          .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+        //label information
+        //x.domain(age);
+        //y.domain([0, d3.max(totalAgeDeaths)]);
+
+        // svg
+        //   .append("g")
+        //   .attr("class", "x axis")
+        //   .attr("transform", `translate(0, ${height})`)
+        //   .call(xAxis)
+        //   .selectAll("text")
+        //   .attr("id", (d, i) => `ageLabel${i}`)
+        //   .style("text-anchor", "end")
+        //   .attr("dx", "-.8em")
+        //   .attr("dy", "-.55em")
+        //   .attr("transform", "rotate(-75)");
+
+        // svg
+        //   .append("g")
+        //   .attr("class", "y axis")
+        //   .call(yAxis)
+        //   .append("text")
+        //   .attr("transform", "rotate(-90)")
+        //   .attr("y", 6)
+        //   .attr("dy", ".71em")
+        //   .style("text-anchor", "end")
+        //   .text("Number of deaths");
+
+        // svg
+        //   .append("text")
+        //   .attr("x", 0)
+        //   .attr("y", 0 - margin.top / 2)
+        //   .attr("font-family", "sans-serif")
+        //   .attr("font-weight", "bold")
+        //   .text("Deaths by Age Range");
+
+        // console.log("total age deaths");
+        // console.log(totalAgeDeaths);
+        // console.log("total age deaths male female");
+        // console.log(totalAgeDeathsMaleFemale);
+
+        const groupKey = "grouping";
+        const keys = age;
+
+        const data = totalAgeDeathsMaleFemaleDictGroupKey;
+
+        const x0 = () =>
+          d3.scale
+            .ordinal()
+            .domain(
+              totalAgeDeathsMaleFemaleDictGroupKey.map((d) => d[groupKey])
+            )
+            .rangeRound([margin.left, width - margin.right])
+            .paddingInner(0.1);
+
+        const x1 = () =>
+          d3.scale
+            .ordinal()
+            .domain(keys)
+            .rangeRound([0, x0.rangeBand()])
+            .padding(0.05);
+
+        const color = d3.scale
+          .ordinal()
+          .range([
+            "#98abc5",
+            "#8a89a6",
+            "#7b6888",
+            "#6b486b",
+            "#a05d56",
+            "#d0743c",
+            "#ff8c00",
+          ]);
+
+        const yAxis = (g) =>
+          g
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(y).ticks(null, "s"))
+            .call((g) => g.select(".domain").remove())
+            .call((g) =>
+              g
+                .select(".tick:last-of-type text")
+                .clone()
+                .attr("x", 3)
+                .attr("text-anchor", "start")
+                .attr("font-weight", "bold")
+                .text(data.y)
+            );
+
+        const legend = (svg) => {
+          const g = svg
+            .attr("transform", `translate(${width},0)`)
+            .attr("text-anchor", "end")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .selectAll("g")
+            .data(color.domain().slice().reverse())
+            .join("g")
+            .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+          g.append("rect")
+            .attr("x", -19)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", color);
+
+          g.append("text")
+            .attr("x", -24)
+            .attr("y", 9.5)
+            .attr("dy", "0.35em")
+            .text((d) => d);
+        };
+
+        const svgAppender = () => {
+          svg
+            .append("g")
+            .selectAll("g")
+            .data(data)
+            .attr("transform", (d) => `translate(${x0(d[groupKey])},0)`);
+
+          svg
+            .append("g")
+            .selectAll("rect")
+            .data(
+              keys.map(function (d) {
+                console.log(d);
+                console.log(data[d]);
+                return { d, value: data[d] };
+              })
+            )
+            .join("rect")
+            .attr("x", (d) => x1(d.key))
+            .attr("y", (d) => y(d.value))
+            .attr("width", x1.bandwidth())
+            .attr("height", (d) => y(0) - y(d.value))
+            .attr("fill", (d) => color(d.key));
+        };
+
+        svgAppender();
+
+        svg.append("g").call(xAxis);
+
+        svg.append("g").call(yAxis);
+
+        svg.append("g").call(legend);
+
+        // svg
+        //   .append("g")
+        //   .selectAll("g")
+        //   .data(totalAgeDeathsMaleFemaleDict)
+        //   .enter()
+        //   .selectAll("bar") //check if I need the transform d part
+        //   .data((d) => age.map((key) => ({ key, value: d[key] })))
+        //   .join("rect")
+        //   //.enter()
+        //   //.append("rect")
+        //   // .attr("id", function (d, i) {
+        //   //   return `ageBar${i[0]}`;
+        //   // })
+        //   .attr("class", "ageBar")
+        //   .attr("x", (d) => x(d.key))
+        //   .attr("y", function (d) {
+        //     return y(d.value);
+        //   })
+        //   .attr("width", x.rangeBand())
+        //   .attr("height", (d) => height - y(d.value));
+        // // .on("click", onClick)
+        // // .on("mouseenter", onMouseEnter)
+        // // .on("mouseleave", onMouseLeave);
+
+        // svg
+        //   .append("g")
+        //   .selectAll("g")
+        //   .data(totalAgeDeathsMaleFemale)
+        //   .enter()
+        //   .append("rect")
+        //   .attr("id", function (d, i) {
+        //     return `ageBar${i[1]}`;
+        //   })
+        //   .attr("class", "ageBar")
+        //   .attr("x", (d, i) => x(age[i]))
+        //   .attr("y", function (d) {
+        //     return y(d[1]);
+        //   })
+        //   .attr("width", x.rangeBand())
+        //   .attr("height", (d) => height - y(d[1]))
+        //   .on("click", onClick)
+        //   .on("mouseenter", onMouseEnter)
+        //   .on("mouseleave", onMouseLeave);
+      };
+      drawGenderAndAge();
     };
     d3.csv(deaths_age_sex, function (d_set) {
       let temp_set = [];
@@ -583,21 +851,23 @@ const InitDrawGraphs = () => {
         saver = summer;
       });
       deathsData = temp_set;
+      //console.log(temp_set);
       drawGraphs(temp_set);
       updateMap();
     });
   }, []);
   return (
-    <div>
-      <Row>
-        <Col sm={6}>
-          <svg ref={ref}></svg>
-        </Col>
-        <Col sm={6}>
-          <svg ref={ref2}></svg>
-        </Col>
-      </Row>
-    </div>
+    <svg ref={ref}></svg>
+    // <div>
+    //   <Row>
+    //     <Col sm={6}>
+    //       <svg ref={ref}></svg>
+    //     </Col>
+    //     <Col sm={6}>
+    //       <svg ref={ref2}></svg>
+    //     </Col>
+    //   </Row>
+    // </div>
   );
 };
 
