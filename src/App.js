@@ -9,6 +9,8 @@ import {
 import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
 import Logo from "./assets/IUPUI_Logo_49.jpg";
 import MainPage from "./components/Main_Page";
+import DocumentationPage from "./components/Documentation_Page.js";
+import YouTubePage from "./components/YouTube_Page.js";
 
 const MainMenu = () => {
   return (
@@ -34,7 +36,7 @@ const MainMenu = () => {
             className="nav-link"
             exact
           >
-            Documentation
+            Documentation/About
           </RouterNavLink>
         </NavItem>
       </NavDropdown.Item>
@@ -100,11 +102,11 @@ const Home = () => {
 };
 
 const Documentation = () => {
-  return <h2>Documentation</h2>;
+  return <div>{DocumentationPage}</div>;
 };
 
 const YouTube = () => {
-  return <h2>YouTube</h2>;
+  return <div>{YouTubePage}</div>;
 };
 
 export default App;
