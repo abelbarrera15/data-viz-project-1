@@ -206,18 +206,18 @@ const CholeraMap = () => {
   }, []);
   //
   return (
-    <div class="mapContainer">
+    <div>
       {/* <header class="mapHeader">
         <h2>some header</h2>
       </header> */}
       {/* <h2>someHeader</h2> */}
-      <svg class="map" ref={ref}></svg>
-      <div class="legend">
-        <div class="pumpLabel">Pumps</div>
-        <div class="maleLabel">Male Deaths</div>
-        <div class="femaleLabel">Female Deaths</div>
+      <svg className="map" ref={ref}></svg>
+      <div className="legend">
+        <div className="pumpLabel">Pumps</div>
+        <div className="maleLabel">Male Deaths</div>
+        <div className="femaleLabel">Female Deaths</div>
       </div>
-      <div class="tooltip"></div>
+      <div className="tooltip"></div>
     </div>
   );
 };
@@ -603,17 +603,28 @@ const InitDrawGraphs = () => {
 
 const updateMap = (newFilter) => {
   const onMouseEnter = (d) => {
+    console.log("on mouse enter");
     d3.select(".tooltip").classed("showTooltip", true);
   };
 
   const onMouseMove = (d) => {
+    console.log("on move move");
+    // console.log("cannot enter here");
+    // const test = d3.select(".tooltip");
+    // console.log(test);
+    console.log(d3.event.pageX);
+    console.log(window.scrollX);
+    console.log(gender[d.gender]);
     d3.select(".tooltip")
       .html(`${gender[d.gender]}, ${age[d.age]}`)
-      .style("left", `${window.event.pageX - window.scrollX + 12}px`)
-      .style("top", `${window.event.pageY - window.scrollY - 18}px`);
+      //.style("left", `${d3.event.pageX - window.scrollX + 12}`)
+      .style("left", "10px")
+      //.style("top", `${d3.event.pageY - window.scrollY - 18}`);
+      .style("top", "10px");
   };
 
   const onMouseLeave = (d) => {
+    console.log("on mouse leave");
     d3.select(".tooltip").classed("showTooltip", false);
   };
 
