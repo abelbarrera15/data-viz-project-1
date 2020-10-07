@@ -638,39 +638,39 @@ const InitDrawGraphs = () => {
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         //label information
-        //x.domain(age);
-        //y.domain([0, d3.max(totalAgeDeaths)]);
+        x.domain(age);
+        y.domain([0, d3.max(totalAgeDeaths)]);
 
-        // svg
-        //   .append("g")
-        //   .attr("class", "x axis")
-        //   .attr("transform", `translate(0, ${height})`)
-        //   .call(xAxis)
-        //   .selectAll("text")
-        //   .attr("id", (d, i) => `ageLabel${i}`)
-        //   .style("text-anchor", "end")
-        //   .attr("dx", "-.8em")
-        //   .attr("dy", "-.55em")
-        //   .attr("transform", "rotate(-75)");
+        svg
+          .append("g")
+          .attr("class", "x axis")
+          .attr("transform", `translate(0, ${height})`)
+          .call(xAxis)
+          .selectAll("text")
+          .attr("id", (d, i) => `ageLabel${i}`)
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", "-.55em")
+          .attr("transform", "rotate(-75)");
 
-        // svg
-        //   .append("g")
-        //   .attr("class", "y axis")
-        //   .call(yAxis)
-        //   .append("text")
-        //   .attr("transform", "rotate(-90)")
-        //   .attr("y", 6)
-        //   .attr("dy", ".71em")
-        //   .style("text-anchor", "end")
-        //   .text("Number of deaths");
+        svg
+          .append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+          .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Number of deaths");
 
-        // svg
-        //   .append("text")
-        //   .attr("x", 0)
-        //   .attr("y", 0 - margin.top / 2)
-        //   .attr("font-family", "sans-serif")
-        //   .attr("font-weight", "bold")
-        //   .text("Deaths by Age Range");
+        svg
+          .append("text")
+          .attr("x", 0)
+          .attr("y", 0 - margin.top / 2)
+          .attr("font-family", "sans-serif")
+          .attr("font-weight", "bold")
+          .text("Deaths by Age Range");
 
         // console.log("total age deaths");
         // console.log(totalAgeDeaths);
@@ -682,105 +682,122 @@ const InitDrawGraphs = () => {
 
         const data = totalAgeDeathsMaleFemaleDictGroupKey;
 
-        const x0 = () =>
-          d3.scale
-            .ordinal()
-            .domain(
-              totalAgeDeathsMaleFemaleDictGroupKey.map((d) => d[groupKey])
-            )
-            .rangeRound([margin.left, width - margin.right])
-            .paddingInner(0.1);
+        let data_indexer = null;
 
-        const x1 = () =>
-          d3.scale
-            .ordinal()
-            .domain(keys)
-            .rangeRound([0, x0.rangeBand()])
-            .padding(0.05);
+        // svg
+        //   .selectAll("bar")
+        //   .data(totalAgeDeaths)
+        //   .enter()
+        //   .append("rect")
+        //   .attr("id", function (d, i) {
+        //     console.log("i");
+        //     console.log(i);
+        //     console.log("d");
+        //     console.log(d);
+        //     return `ageBar${i}`;
+        //   })
+        //   .attr("class", "ageBar")
+        //   .attr("x", (d, i) => x(age[i]))
+        //   .attr("y", (d) => y(d))
+        //   .attr("width", x.rangeBand())
+        //   .attr("height", (d) => height - y(d))
+        //   .on("click", onClick)
+        //   .on("mouseenter", onMouseEnter)
+        //   .on("mouseleave", onMouseLeave);
 
-        const color = d3.scale
-          .ordinal()
-          .range([
-            "#98abc5",
-            "#8a89a6",
-            "#7b6888",
-            "#6b486b",
-            "#a05d56",
-            "#d0743c",
-            "#ff8c00",
-          ]);
-
-        const yAxis = (g) =>
-          g
-            .attr("transform", `translate(${margin.left},0)`)
-            .call(d3.axisLeft(y).ticks(null, "s"))
-            .call((g) => g.select(".domain").remove())
-            .call((g) =>
-              g
-                .select(".tick:last-of-type text")
-                .clone()
-                .attr("x", 3)
-                .attr("text-anchor", "start")
-                .attr("font-weight", "bold")
-                .text(data.y)
-            );
-
-        const legend = (svg) => {
-          const g = svg
-            .attr("transform", `translate(${width},0)`)
-            .attr("text-anchor", "end")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", 10)
-            .selectAll("g")
-            .data(color.domain().slice().reverse())
-            .join("g")
-            .attr("transform", (d, i) => `translate(0,${i * 20})`);
-
-          g.append("rect")
-            .attr("x", -19)
-            .attr("width", 19)
-            .attr("height", 19)
-            .attr("fill", color);
-
-          g.append("text")
-            .attr("x", -24)
-            .attr("y", 9.5)
-            .attr("dy", "0.35em")
-            .text((d) => d);
-        };
-
-        const svgAppender = () => {
-          svg
-            .append("g")
-            .selectAll("g")
-            .data(data)
-            .attr("transform", (d) => `translate(${x0(d[groupKey])},0)`);
-
-          svg
-            .append("g")
-            .selectAll("rect")
-            .data(
-              keys.map(function (d) {
-                console.log(d);
-                console.log(data[d]);
-                return { d, value: data[d] };
+        totalAgeDeathsMaleFemale.forEach(function (i1) {
+          let internal_indexer = null;
+          if (data_indexer === null) {
+            data_indexer = 0;
+          } else {
+            data_indexer = data_indexer + 1;
+          }
+          i1.forEach(function (i2) {
+            if (internal_indexer === null) {
+              internal_indexer = 0;
+            } else {
+              internal_indexer = 1;
+            }
+            svg
+              .append("g")
+              .selectAll("bar")
+              .data([i2])
+              .enter()
+              .append("rect")
+              .attr("id", function (d) {
+                console.log(
+                  `ageBar${parseInt(
+                    data_indexer.toString() + internal_indexer.toString()
+                  )}`
+                );
+                return `ageBar${parseInt(
+                  data_indexer.toString() + internal_indexer.toString()
+                )}`;
               })
-            )
-            .join("rect")
-            .attr("x", (d) => x1(d.key))
-            .attr("y", (d) => y(d.value))
-            .attr("width", x1.bandwidth())
-            .attr("height", (d) => y(0) - y(d.value))
-            .attr("fill", (d) => color(d.key));
-        };
+              .attr("class", "ageBar")
+              .attr("x", function (d) {
+                console.log("X:");
+                console.log("internal_indexer:" + internal_indexer);
 
-        svgAppender();
+                if (internal_indexer === 0) {
+                  console.log(x(age[data_indexer]));
+                  return x(age[data_indexer]);
+                } else {
+                  console.log(x(age[data_indexer]) + 10);
+                  return x(age[data_indexer]) + 15;
+                }
+              })
+              .attr("y", function (d) {
+                //console.log(d);
+                console.log("y:");
+                console.log(y(d));
+                return y(d);
+              })
+              .attr("width", x.rangeBand())
+              .attr("height", (d) => height - y(d))
+              .on("click", onClick)
+              .on("mouseenter", onMouseEnter)
+              .on("mouseleave", onMouseLeave);
+          });
+        });
 
-        svg.append("g").call(xAxis);
-
-        svg.append("g").call(yAxis);
-
-        svg.append("g").call(legend);
+        // svg
+        //   .selectAll("bar")
+        //   .data(
+        //     totalAgeDeathsMaleFemale.forEach(function (temp) {
+        //       //console.log(temp);
+        //       if (data_indexer === null) {
+        //         data_indexer = 0;
+        //       } else {
+        //         data_indexer = data_indexer + 1;
+        //       }
+        //       console.log(data_indexer);
+        //       return temp;
+        //     })
+        //   )
+        //   .enter()
+        //   .append("rect")
+        //   .attr("id", function (temp) {
+        //     console.log("checking the data");
+        //     console.log(data_indexer);
+        //     return `ageBar${data_indexer}`;
+        //   })
+        //   .attr("class", "ageBar")
+        //   .attr("x", (d, i) => x(age[data_indexer]))
+        //   .attr("y", function (d) {
+        //     d.foreach(function (d_d) {
+        //       return y(d_d);
+        //     });
+        //   })
+        //   .attr("width", x.rangeBand())
+        //   .attr("height", function (d) {
+        //     d.foreach(function (d_d) {
+        //       return height - y(d_d);
+        //     });
+        //   })
+        //   .on("click", onClick)
+        //   .on("mouseenter", onMouseEnter)
+        //   .on("mouseleave", onMouseLeave);
 
         // svg
         //   .append("g")
