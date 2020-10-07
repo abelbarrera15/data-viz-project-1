@@ -205,7 +205,21 @@ const CholeraMap = () => {
     MakeMap();
   }, []);
   //
-  return <svg ref={ref}></svg>;
+  return (
+    <div class="mapContainer">
+      {/* <header class="mapHeader">
+        <h2>some header</h2>
+      </header> */}
+      {/* <h2>someHeader</h2> */}
+      <svg class="map" ref={ref}></svg>
+      <div class="legend">
+        <div class="pumpLabel">Pumps</div>
+        <div class="maleLabel">Male Deaths</div>
+        <div class="femaleLabel">Female Deaths</div>
+      </div>
+      <div class="tooltip"></div>
+    </div>
+  );
 };
 
 const TimeSeries = () => {
