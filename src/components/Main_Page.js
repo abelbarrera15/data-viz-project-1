@@ -37,7 +37,6 @@ const offset = (d) => {
 
 const parseDate = (date) => {
   if (date !== undefined) {
-    //console.log(date);
     return d3.time.format("%d-%b").parse(date);
   }
 };
@@ -241,7 +240,6 @@ const TimeSeries = () => {
       });
 
       daysData = data;
-      console.log(daysData);
 
       x.domain(data.map((d) => d.date));
       y.domain([0, d3.max(data, (d) => d.deaths)]);
@@ -321,7 +319,6 @@ const TimeSeries = () => {
 
     const onClick = (d, index) => {
       const isActive = d3.select(ref.current).classed("timelineActive");
-      //console.log(isActive);
       // if active link is clicked, clear all links
       if (isActive) {
         d3.selectAll(".timelineActive").classed("timelineActive", false);
@@ -550,8 +547,6 @@ const InitDrawGraphs = () => {
       drawAge();
     };
     d3.csv(deaths_age_sex, function (d_set) {
-      // console.log("org set");
-      // console.log(d_set);
       let temp_set = [];
       let saver = 0;
       daysData.forEach(function (d) {
@@ -570,12 +565,9 @@ const InitDrawGraphs = () => {
             });
             summer = summer + 1;
           }
-          //console.log(temp_set);
         });
-        saver = summer; //+ 1
+        saver = summer;
       });
-      // console.log("temp set");
-      //console.log(temp_set);
       deathsData = temp_set;
       drawGraphs(temp_set);
       updateMap();
@@ -613,28 +605,9 @@ const updateMap = (newFilter) => {
 
   // update filter
   filter = { ...filter, ...newFilter };
-  console.log("logging filter");
-  console.log(filter);
 
   // clear current render
   d3.select("#deaths").selectAll("circle").remove();
-  console.log("logging where data its null");
-
-  console.log("deathsData.filter");
-  // console.log(
-  //   deathsData.filter(function (d) {
-  //     const matchesGender = filter.gender === null || d.gender == filter.gender;
-  //     console.log("gender");
-  //     console.log(matchesGender);
-  //     const matchesAge = filter.age === null || d.age == filter.age;
-  //     console.log("age");
-  //     console.log(matchesAge);
-  //     console.log("date");
-  //     console.log(filter.date);
-  //     console.log(d.date);
-  //     return matchesGender && matchesAge;
-  //   })
-  // );
 
   // apply filter & render
   d3.select("#deaths")
