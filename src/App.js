@@ -17,7 +17,7 @@ const MainMenu = () => {
         <NavItem>
           <RouterNavLink
             style={{ color: "black" }}
-            to="/"
+            to="/data-viz-project-1"
             className="nav-link"
             exact
           >
@@ -30,7 +30,7 @@ const MainMenu = () => {
         <NavItem>
           <RouterNavLink
             style={{ color: "black" }}
-            to="/Documentation"
+            to="/data-viz-project-1/Documentation"
             className="nav-link"
             exact
           >
@@ -43,7 +43,7 @@ const MainMenu = () => {
         <NavItem>
           <RouterNavLink
             style={{ color: "black" }}
-            to="/YouTube"
+            to="/data-viz-project-1/YouTube"
             className="nav-link"
             exact
           >
@@ -80,13 +80,13 @@ const App = () => {
         </Navbar>
 
         <Switch>
-          <Route path="/Documentation">
+          <Route path="/data-viz-project-1/Documentation">
             <Documentation />
           </Route>
-          <Route path="/YouTube">
+          <Route path="/data-viz-project-1/YouTube">
             <YouTube />
           </Route>
-          <Route path="/">
+          <Route path="/data-viz-project-1">
             <Home />
           </Route>
         </Switch>

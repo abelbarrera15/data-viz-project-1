@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import deathAttribs from "../data_files/deathdays.csv";
-import deathDays from "../data_files/deaths_age_sex.csv";
+import deathdays from "../data_files/deathdays.csv";
+import deaths_age_sex from "../data_files/deaths_age_sex.csv";
 import pumpsLoc from "../data_files/pumps.csv";
 import { Row, Col, Container } from "react-bootstrap";
 
@@ -27,6 +27,8 @@ const gender = ["male", "female"];
 
 let deathsData;
 
+let daysData;
+
 //gen funcs
 const offset = (d) => {
   const scale = 45;
@@ -35,7 +37,7 @@ const offset = (d) => {
 
 const parseDate = (date) => {
   if (date !== undefined) {
-    console.log(date);
+    //console.log(date);
     return d3.time.format("%d-%b").parse(date);
   }
 };
@@ -232,11 +234,14 @@ const TimeSeries = () => {
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    d3.csv(deathAttribs, function (data) {
+    d3.csv(deathdays, function (data) {
       data.forEach(function (d) {
         d.date = parseDate(d.date);
         d.deaths = +d.deaths;
       });
+
+      daysData = data;
+      console.log(daysData);
 
       x.domain(data.map((d) => d.date));
       y.domain([0, d3.max(data, (d) => d.deaths)]);
@@ -316,10 +321,9 @@ const TimeSeries = () => {
 
     const onClick = (d, index) => {
       const isActive = d3.select(ref.current).classed("timelineActive");
-      console.log(isActive);
+      //console.log(isActive);
       // if active link is clicked, clear all links
       if (isActive) {
-        console.log("I am active");
         d3.selectAll(".timelineActive").classed("timelineActive", false);
         updateMap({ date: null });
         return;
@@ -545,9 +549,35 @@ const InitDrawGraphs = () => {
       };
       drawAge();
     };
-    d3.csv(deathDays, function (d_set) {
-      deathsData = d_set;
-      drawGraphs(d_set);
+    d3.csv(deaths_age_sex, function (d_set) {
+      // console.log("org set");
+      // console.log(d_set);
+      let temp_set = [];
+      let saver = 0;
+      daysData.forEach(function (d) {
+        let summer = 0;
+        d_set.forEach(function (d_inner) {
+          if (summer < saver) {
+            summer = summer + 1;
+          }
+          if (summer >= saver && summer < d.deaths + saver) {
+            temp_set.push({
+              x: d_inner.x,
+              y: d_inner.y,
+              age: d_inner.age,
+              gender: d_inner.gender,
+              date: d.date,
+            });
+            summer = summer + 1;
+          }
+          //console.log(temp_set);
+        });
+        saver = summer; //+ 1
+      });
+      // console.log("temp set");
+      //console.log(temp_set);
+      deathsData = temp_set;
+      drawGraphs(temp_set);
       updateMap();
     });
   }, []);
@@ -583,9 +613,28 @@ const updateMap = (newFilter) => {
 
   // update filter
   filter = { ...filter, ...newFilter };
+  console.log("logging filter");
+  console.log(filter);
 
   // clear current render
   d3.select("#deaths").selectAll("circle").remove();
+  console.log("logging where data its null");
+
+  console.log("deathsData.filter");
+  // console.log(
+  //   deathsData.filter(function (d) {
+  //     const matchesGender = filter.gender === null || d.gender == filter.gender;
+  //     console.log("gender");
+  //     console.log(matchesGender);
+  //     const matchesAge = filter.age === null || d.age == filter.age;
+  //     console.log("age");
+  //     console.log(matchesAge);
+  //     console.log("date");
+  //     console.log(filter.date);
+  //     console.log(d.date);
+  //     return matchesGender && matchesAge;
+  //   })
+  // );
 
   // apply filter & render
   d3.select("#deaths")
@@ -593,11 +642,10 @@ const updateMap = (newFilter) => {
     .data(
       deathsData.filter(function (d) {
         const matchesGender =
-          filter.gender === null || d.gender === filter.gender;
-        const matchesAge = filter.age === null || d.age === filter.age;
+          filter.gender === null || d.gender == filter.gender;
+        const matchesAge = filter.age === null || d.age == filter.age;
         const matchesDate =
-          filter.date === null ||
-          parseDate(d.date).getTime() <= filter.date.getTime();
+          filter.date === null || d.date.getTime() <= filter.date.getTime();
         return matchesGender && matchesAge && matchesDate;
       })
     )
