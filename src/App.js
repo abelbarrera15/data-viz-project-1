@@ -102,7 +102,11 @@ const Home = () => {
 };
 
 const Documentation = () => {
-  return <div>{DocumentationPage}</div>;
+  return (
+    <div>
+      <DocumentationPage />
+    </div>
+  );
 };
 
 const YouTube = () => {

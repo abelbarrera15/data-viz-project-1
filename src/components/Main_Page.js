@@ -554,7 +554,15 @@ const InitDrawGraphs = () => {
       updateMap();
     });
   }, []);
-  return <svg ref={ref}></svg>;
+  return (
+    <div>
+      <svg ref={ref}></svg>
+      <div className="legend">
+        <div className="maleLabel">Male Deaths</div>
+        <div className="femaleLabel">Female Deaths</div>
+      </div>
+    </div>
+  );
 };
 
 const updateMap = (newFilter) => {

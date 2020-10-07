@@ -5,7 +5,6 @@
 1. https://khreda.com/teaching/2020/H517/project1/
 2. https://en.wikipedia.org/wiki/1854_Broad_Street_cholera_outbreak
 3. https://dev.to/yuribenjamin/how-to-deploy-react-app-in-github-pages-2a1f
-4. https://github.com/madduci/docker-github-pages
 
 ### Purpose:
 
@@ -30,10 +29,15 @@ The web pages should be live online, and your submission should consist of a sin
 
 ### Toolset:
 
-- Will update
-  - will update
+- React JS
+- D3
+- React-Markdown
+- gh-pages
 
 ### Key Commands
 
-1. Will update
-   - Will update
+1. npm run start
+   - launches development server
+2. npm run deploy
+
+- deploys to github pages
