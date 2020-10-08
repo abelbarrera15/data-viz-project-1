@@ -6,7 +6,7 @@ const YouTubePage = (
     <h6 style={{ paddingLeft: "0px", fontWeight: "bold" }}>
       Youtube Based Demonstration
     </h6>
-    <ReactPlayer url="https://www.youtube.com/watch?v=Tk38QvbUHBw" />
+    <ReactPlayer url="https://youtu.be/YEjvn0ZYF0I" />
   </div>
 );
 

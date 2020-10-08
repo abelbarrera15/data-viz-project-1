@@ -72,7 +72,7 @@ const App = () => {
             />
           </Navbar.Brand>
           <Navbar.Text className="d-flex align-items-center">
-            London's 1894 Cholera Epidemic
+            London's 1854 Cholera Epidemic
           </Navbar.Text>
           <Navbar.Collapse className="justify-content-end">
             <Nav className="justify-content-end">

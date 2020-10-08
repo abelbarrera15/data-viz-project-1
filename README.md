@@ -41,5 +41,4 @@ The web pages should be live online, and your submission should consist of a sin
 1. npm start
    - launches development server
 2. npm run deploy
-
-- deploys to github pages
+   - deploys to github pages
