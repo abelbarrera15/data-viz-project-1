@@ -33,10 +33,12 @@ The web pages should be live online, and your submission should consist of a sin
 - D3
 - React-Markdown
 - gh-pages
+- node-sass
+- ReactPlayer
 
 ### Key Commands
 
-1. npm run start
+1. npm start
    - launches development server
 2. npm run deploy
 
