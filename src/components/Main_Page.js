@@ -29,12 +29,6 @@ let deathsData;
 
 let daysData;
 
-const parseDate = (date) => {
-  if (date !== undefined) {
-    return d3.time.format("%d-%b").parse(date);
-  }
-};
-
 const CholeraMap = () => {
   const ref = useRef();
   const margin = { top: 60, right: 20, bottom: 70, left: 40 };
@@ -67,7 +61,9 @@ const CholeraMap = () => {
         .data(streetsJson)
         .enter()
         .append("path")
-        .attr("class", "street")
+        .attr("stroke","black")
+        .attr("stroke-width","3")
+        .attr("fill","none")
         .attr(
           "d",
           d3.svg
@@ -85,143 +81,208 @@ const CholeraMap = () => {
           .append("circle")
           .attr("cx", (d) => d.x * 45 - 45 * 3)
           .attr("cy", (d) => d.y * 45 - 45 * 3)
-          .attr("class", "pump");
+          .attr("fill","cornflowerblue")
+          .attr("r",9)
       });
 
       // draw work house on map
       map
         .append("g")
         .append("rect")
-        .attr("class", "workHouse")
         .attr("x", 523)
         .attr("y", 195)
         .attr("width", 60)
         .attr("height", 50)
-        .style("opacity", 0.1);
+        .style("opacity", 0.1)
+        .attr(
+          "transform",
+          `rotate(30)`
+        );
 
       // draw work house label on map
       map
         .append("g")
         .append("text")
-        .attr("class", "workHouseLabel")
         .attr("x", 535)
         .attr("y", -243)
+        .attr("font-size",10)
+        .attr(
+          "transform",
+          `rotate(28) scale(1, -1)`
+        )
         .text("Work");
 
         map
         .append("g")
         .append("text")
-        .attr("class", "workHouseLabel")
         .attr("x", 531)
         .attr("y", -230)
+        .attr("font-size",10)
+        .attr(
+          "transform",
+          `rotate(28) scale(1, -1)`
+        )
         .text("House");
 
       // draw brewery on map
       map
         .append("g")
         .append("rect")
-        .attr("class", "brewery")
         .attr("x", 610)
         .attr("y", 76)
         .attr("width", 28)
         .attr("height", 48)
-        .style("opacity", 0.1);
+        .style("opacity", 0.1)
+        .attr(
+          "transform",
+          `rotate(30)`
+        );
 
       // draw brewery label on map
       map
         .append("g")
         .append("text")
-        .attr("class", "breweryLabel")
         .attr("x", -127)
         .attr("y", -620)
+        .attr("font-size",10)
+        .attr(
+          "transform",
+          `rotate(-61) scale(1, -1)`
+        )
         .text("Brewery");
 
       // draw golden square on map
       map
         .append("g")
         .append("rect")
-        .attr("class", "goldenSquare")
         .attr("x", 439)
         .attr("y", -62)
         .attr("width", 50)
         .attr("height", 50)
-        .style("opacity", 0.1);
+        .style("opacity", 0.1)
+        .attr(
+          "transform",
+          `rotate(35)`
+        );
 
       // draw golden square label
       map
         .append("g")
         .append("text")
-        .attr("class", "goldenSquareLabel")
         .attr("x", 445)
         .attr("y", 30)
+        .attr("font-size",10)
+        .attr(
+          "transform",
+          `rotate(35) scale(1, -1)`
+        )
         .text("Golden");
 
       map
         .append("g")
         .append("text")
-        .attr("class", "goldenSquareLabel")
         .attr("x", 445)
         .attr("y", 40)
+        .attr("font-size",10)
+        .attr(
+          "transform",
+          `rotate(35) scale(1, -1)`
+        )
         .text("Square");
 
       // draw broad street label on map
       map
         .append("g")
         .append("text")
-        .attr("class", "broadStreet")
         .attr("x", 505)
         .attr("y", -150)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(28) scale(1, -1)`
+        )
         .text("Broad");
 
       map
         .append("g")
         .append("text")
-        .attr("class", "broadStreet")
         .attr("x", 542)
         .attr("y", -150)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(28) scale(1, -1)`
+        )
         .text("Street");
 
       // draw great marlborough street label on map
       map
         .append("g")
         .append("text")
-        .attr("class", "greatStreet")
         .attr("x", 394)
         .attr("y", -336)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(23) scale(1, -1)`
+        )
         .text("Great Marlborough");
 
       map
         .append("g")
         .append("text")
-        .attr("class", "greatStreet")
         .attr("x", 490)
         .attr("y", -336)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(23) scale(1, -1)`
+        )
         .text("Street");
 
       // draw regent street label on map
       map
         .append("g")
         .append("text")
-        .attr("class", "regentStreet")
         .attr("x", -215)
         .attr("y", -358)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(-61) scale(1, -1)`
+        )
         .text("Regent Street");
 
       // draw brewer street label on map
       map
         .append("g")
         .append("text")
-        .attr("class", "brewerStreet")
         .attr("x", 385)
         .attr("y", 160)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(42) scale(1, -1)`
+        )
         .text("Brewer");
 
       map
         .append("g")
         .append("text")
-        .attr("class", "brewerStreet")
         .attr("x", 425)
         .attr("y", 160)
+        .attr("font-size",10)
+        .attr("font-weight","bold")
+        .attr(
+          "transform",
+          `rotate(42) scale(1, -1)`
+        )
         .text("Street");
 
       map
@@ -293,7 +354,6 @@ const TimeSeries = () => {
   useEffect(() => {
     const timeline = d3
       .select(ref.current)
-      .attr("class", "timeline")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -301,7 +361,7 @@ const TimeSeries = () => {
 
     d3.csv(deathdays, function (data) {
       data.forEach(function (d) {
-        d.date = parseDate(d.date);
+        d.date = d3.time.format("%d-%b").parse(d.date)
         d.deaths = +d.deaths;
       });
 
@@ -414,10 +474,10 @@ const TimeSeries = () => {
   return <svg ref={ref}></svg>;
 };
 
-const InitDrawGraphs = () => {
+const InitBarChart = () => {
   const ref = useRef();
   useEffect(() => {
-    const drawGraphs = (data) => {
+    const BarChart  = (data) => {
       let totalGenderDeaths = [0, 0];
       let totalAgeDeaths = [0, 0, 0, 0, 0, 0];
       let totalAgeDeathsMaleFemale = [
@@ -454,7 +514,6 @@ const InitDrawGraphs = () => {
           .select(ref.current)
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
-          .attr("class", "ageGraph")
           .append("g")
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -568,7 +627,7 @@ const InitDrawGraphs = () => {
         saver = summer;
       });
       deathsData = temp_set;
-      drawGraphs(temp_set);
+      BarChart(temp_set);
       dynFilter();
     });
   }, []);
@@ -642,7 +701,7 @@ const MainPage = (
           <TimeSeries />
         </Row>
         <Row>
-          <InitDrawGraphs />
+          <InitBarChart />
         </Row>
       </Col>
     </Row>

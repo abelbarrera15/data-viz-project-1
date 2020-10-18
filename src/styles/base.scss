@@ -388,68 +388,6 @@ main {
   transform: scale(1, -1);
 }
 
-.workHouse {
-  transform: rotate(30deg);
-}
-
-.workHouseLabel {
-  transform: rotate(28deg) scale(1, -1);
-  font-size: 10px;
-}
-
-.brewery {
-  transform: rotate(30deg);
-}
-
-.breweryLabel {
-  transform: rotate(-61deg) scale(1, -1);
-  font-size: 10px;
-}
-
-.goldenSquare {
-  transform: rotate(35deg);
-}
-
-.goldenSquareLabel {
-  transform: rotate(35deg) scale(1, -1);
-  font-size: 10px;
-}
-
-.broadStreet {
-  transform: rotate(28deg) scale(1, -1);
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.greatStreet {
-  transform: rotate(23deg) scale(1, -1);
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.regentStreet {
-  transform: rotate(-61deg) scale(1, -1);
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.brewerStreet {
-  transform: rotate(42deg) scale(1, -1);
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.street {
-  stroke: black;
-  stroke-width: 3;
-  fill: none;
-}
-
-.pump {
-  fill: cornflowerblue;
-  r: 9;
-}
-
 .death {
   opacity: 0.9;
   r: 3;
