@@ -367,6 +367,40 @@ const TimeSeries = () => {
 
       daysData = data;
 
+      const onMouseEnter = (d, index) => {
+        for (let i = 0; i <= index; i++) {
+          d3.select(`#timelineBar${i}`).classed("timelineHover", true);
+          d3.select(`#timelineDate${i}`).classed("timelineHover", true);
+        }
+      };
+  
+      const onMouseLeave = (d, index) => {
+        for (let i = 0; i <= index; i++) {
+          d3.select(`#timelineBar${i}`).classed("timelineHover", false);
+          d3.select(`#timelineDate${i}`).classed("timelineHover", false);
+        }
+      };
+  
+      const onClick = (d, index) => {
+        const isActive = d3.select(ref.current).classed("timelineActive");
+        if (isActive) {
+          d3.selectAll(".timelineActive").classed("timelineActive", false);
+          dynFilter({ date: null });
+          return;
+        }
+  
+        d3.selectAll(".timelineActive").classed("timelineActive", false);
+        for (let i = 0; i <= index; i++) {
+          d3.select(`#timelineBar${i}`).classed("timelineActive", true);
+        }
+  
+        let newDate = d3
+          .select(`#timelineDate${index}`)
+          .classed("timelineActive", true)
+          .data()[0];
+          dynFilter({ date: newDate });
+      };
+
       x.domain(data.map((d) => d.date));
       y.domain([0, d3.max(data, (d) => d.deaths)]);
 
@@ -425,40 +459,6 @@ const TimeSeries = () => {
         .on("mouseenter", onMouseEnter)
         .on("mouseleave", onMouseLeave);
     });
-
-    const onMouseEnter = (d, index) => {
-      for (let i = 0; i <= index; i++) {
-        d3.select(`#timelineBar${i}`).classed("timelineHover", true);
-        d3.select(`#timelineDate${i}`).classed("timelineHover", true);
-      }
-    };
-
-    const onMouseLeave = (d, index) => {
-      for (let i = 0; i <= index; i++) {
-        d3.select(`#timelineBar${i}`).classed("timelineHover", false);
-        d3.select(`#timelineDate${i}`).classed("timelineHover", false);
-      }
-    };
-
-    const onClick = (d, index) => {
-      const isActive = d3.select(ref.current).classed("timelineActive");
-      if (isActive) {
-        d3.selectAll(".timelineActive").classed("timelineActive", false);
-        dynFilter({ date: null });
-        return;
-      }
-
-      d3.selectAll(".timelineActive").classed("timelineActive", false);
-      for (let i = 0; i <= index; i++) {
-        d3.select(`#timelineBar${i}`).classed("timelineActive", true);
-      }
-
-      let newDate = d3
-        .select(`#timelineDate${index}`)
-        .classed("timelineActive", true)
-        .data()[0];
-        dynFilter({ date: newDate });
-    };
   }, [
     height,
     margin.bottom,
