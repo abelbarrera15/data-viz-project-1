@@ -29,12 +29,6 @@ let deathsData;
 
 let daysData;
 
-//gen funcs
-const offset = (d) => {
-  const scale = 45;
-  return d * scale - scale * 3;
-};
-
 const parseDate = (date) => {
   if (date !== undefined) {
     return d3.time.format("%d-%b").parse(date);
@@ -66,8 +60,6 @@ const CholeraMap = () => {
     const pumps = map.append("g");
     map.append("g").attr("id", "deaths");
 
-    //d3.select("button").on("clock",reset //need to add reset button here
-
     const MakeMap = () => {
       //draw streets on map
       streets
@@ -80,8 +72,8 @@ const CholeraMap = () => {
           "d",
           d3.svg
             .line()
-            .x((d) => offset(d.x))
-            .y((d) => offset(d.y))
+            .x((d) => d.x * 45 - 45 * 3)
+            .y((d) => d.y * 45 - 45 * 3)
         );
 
       //draw pumps on map
@@ -91,8 +83,8 @@ const CholeraMap = () => {
           .data(data)
           .enter()
           .append("circle")
-          .attr("cx", (d) => offset(d.x))
-          .attr("cy", (d) => offset(d.y))
+          .attr("cx", (d) => d.x * 45 - 45 * 3)
+          .attr("cy", (d) => d.y * 45 - 45 * 3)
           .attr("class", "pump");
       });
 
@@ -112,9 +104,17 @@ const CholeraMap = () => {
         .append("g")
         .append("text")
         .attr("class", "workHouseLabel")
-        .attr("x", 518)
+        .attr("x", 535)
         .attr("y", -243)
-        .text("Work House");
+        .text("Work");
+
+        map
+        .append("g")
+        .append("text")
+        .attr("class", "workHouseLabel")
+        .attr("x", 531)
+        .attr("y", -230)
+        .text("House");
 
       // draw brewery on map
       map
@@ -132,7 +132,7 @@ const CholeraMap = () => {
         .append("g")
         .append("text")
         .attr("class", "breweryLabel")
-        .attr("x", -130)
+        .attr("x", -127)
         .attr("y", -620)
         .text("Brewery");
 
@@ -147,7 +147,7 @@ const CholeraMap = () => {
         .attr("height", 50)
         .style("opacity", 0.1);
 
-      // draw golden square label (first word) on map
+      // draw golden square label
       map
         .append("g")
         .append("text")
@@ -156,7 +156,6 @@ const CholeraMap = () => {
         .attr("y", 30)
         .text("Golden");
 
-      // draw golden square label (second word) on map
       map
         .append("g")
         .append("text")
@@ -165,23 +164,39 @@ const CholeraMap = () => {
         .attr("y", 40)
         .text("Square");
 
-      // draw broad street on map
+      // draw broad street label on map
       map
         .append("g")
         .append("text")
         .attr("class", "broadStreet")
-        .attr("x", 590)
-        .attr("y", -148)
-        .text("Broad Street");
+        .attr("x", 505)
+        .attr("y", -150)
+        .text("Broad");
+
+      map
+        .append("g")
+        .append("text")
+        .attr("class", "broadStreet")
+        .attr("x", 542)
+        .attr("y", -150)
+        .text("Street");
 
       // draw great marlborough street label on map
       map
         .append("g")
         .append("text")
         .attr("class", "greatStreet")
-        .attr("x", 385)
+        .attr("x", 394)
         .attr("y", -336)
-        .text("Great Marlborough Street");
+        .text("Great Marlborough");
+
+      map
+        .append("g")
+        .append("text")
+        .attr("class", "greatStreet")
+        .attr("x", 490)
+        .attr("y", -336)
+        .text("Street");
 
       // draw regent street label on map
       map
@@ -197,9 +212,17 @@ const CholeraMap = () => {
         .append("g")
         .append("text")
         .attr("class", "brewerStreet")
-        .attr("x", 424)
+        .attr("x", 385)
         .attr("y", 160)
-        .text("Brewer Street");
+        .text("Brewer");
+
+      map
+        .append("g")
+        .append("text")
+        .attr("class", "brewerStreet")
+        .attr("x", 425)
+        .attr("y", 160)
+        .text("Street");
 
       map
         .append("g")
@@ -287,7 +310,7 @@ const TimeSeries = () => {
       x.domain(data.map((d) => d.date));
       y.domain([0, d3.max(data, (d) => d.deaths)]);
 
-      // title
+      // timeline barchart title
       timeline
         .append("text")
         .attr("x", width / 2.5)
@@ -297,7 +320,7 @@ const TimeSeries = () => {
         .attr("font-weight", "bold")
         .text("Deaths Over Time Barchart");
 
-      // y-axis labels: num deaths
+      // label y-axis
       timeline
         .append("g")
         .attr("class", "axis")
@@ -309,7 +332,7 @@ const TimeSeries = () => {
         .style("text-anchor", "end")
         .text("Number of deaths");
 
-      // x-axis labels: dates
+      // label x-axis
       timeline
         .append("g")
         .attr("class", "axis")
@@ -326,7 +349,7 @@ const TimeSeries = () => {
         .on("mouseleave", onMouseLeave)
         .on("click", onClick);
 
-      // graph bars
+      // add the bars for the barchart
       timeline
         .selectAll("bar")
         .data(data)
@@ -343,9 +366,7 @@ const TimeSeries = () => {
         .on("mouseleave", onMouseLeave);
     });
 
-    //timeline interactivity
     const onMouseEnter = (d, index) => {
-      // animate for up to & including target
       for (let i = 0; i <= index; i++) {
         d3.select(`#timelineBar${i}`).classed("timelineHover", true);
         d3.select(`#timelineDate${i}`).classed("timelineHover", true);
@@ -353,7 +374,6 @@ const TimeSeries = () => {
     };
 
     const onMouseLeave = (d, index) => {
-      // animate for up to & including target
       for (let i = 0; i <= index; i++) {
         d3.select(`#timelineBar${i}`).classed("timelineHover", false);
         d3.select(`#timelineDate${i}`).classed("timelineHover", false);
@@ -362,10 +382,9 @@ const TimeSeries = () => {
 
     const onClick = (d, index) => {
       const isActive = d3.select(ref.current).classed("timelineActive");
-      // if active link is clicked, clear all links
       if (isActive) {
         d3.selectAll(".timelineActive").classed("timelineActive", false);
-        updateMap({ date: null });
+        dynFilter({ date: null });
         return;
       }
 
@@ -378,7 +397,7 @@ const TimeSeries = () => {
         .select(`#timelineDate${index}`)
         .classed("timelineActive", true)
         .data()[0];
-      updateMap({ date: newDate });
+        dynFilter({ date: newDate });
     };
   }, [
     height,
@@ -439,7 +458,6 @@ const InitDrawGraphs = () => {
           .append("g")
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        //label information
         x.domain(age);
         y.domain([
           0,
@@ -551,7 +569,7 @@ const InitDrawGraphs = () => {
       });
       deathsData = temp_set;
       drawGraphs(temp_set);
-      updateMap();
+      dynFilter();
     });
   }, []);
   return (
@@ -565,7 +583,7 @@ const InitDrawGraphs = () => {
   );
 };
 
-const updateMap = (newFilter) => {
+const dynFilter = (newFilter) => {
   const onMouseEnter = (d) => {
     d3.select(".tooltip").classed("showTooltip", true);
   };
@@ -578,17 +596,13 @@ const updateMap = (newFilter) => {
   };
 
   const onMouseLeave = (d) => {
-    console.log("on mouse leave");
     d3.select(".tooltip").classed("showTooltip", false);
   };
 
-  // update filter
   filter = { ...filter, ...newFilter };
 
-  // clear current render
   d3.select("#deaths").selectAll("circle").remove();
 
-  // apply filter & render
   d3.select("#deaths")
     .selectAll("circle")
     .data(
@@ -603,8 +617,8 @@ const updateMap = (newFilter) => {
     )
     .enter()
     .append("circle")
-    .attr("cx", (d) => offset(d.x))
-    .attr("cy", (d) => offset(d.y))
+    .attr("cx", (d) => d.x * 45 - 45 * 3)
+    .attr("cy", (d) => d.y * 45 - 45 * 3)
     .attr("class", (d) => `${gender[d.gender]} death`)
     .on("mouseenter", onMouseEnter)
     .on("mouseleave", onMouseLeave)

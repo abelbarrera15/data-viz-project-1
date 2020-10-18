@@ -1,6 +1,6 @@
-/*---------------------------------------------------------------
-GENERAL STYLES
-----------------------------------------------------------------*/
+/* ===================================
+  General Styles
+ ===================================*/
 #root {
   .page-content {
     @media (max-width: 991px) {
@@ -20,6 +20,10 @@ GENERAL STYLES
 
 .padding-10 {
   padding: 10px;
+}
+
+.ageBar {
+  fill: mediumseagreen;
 }
 
 .padding-20 {
@@ -380,21 +384,6 @@ main {
   Map Styles
  ===================================*/
 
-.mapContainer {
-  width: 765px;
-}
-
-.mapHeader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mapHeader h2 {
-  display: inline-block;
-  margin: 0 20px;
-}
-
 .map {
   transform: scale(1, -1);
 }
@@ -451,16 +440,14 @@ main {
 }
 
 .street {
-  stroke: dimgray;
-  stroke-width: 2;
+  stroke: black;
+  stroke-width: 3;
   fill: none;
 }
 
 .pump {
   fill: cornflowerblue;
-  r: 7;
-  stroke: dimgray;
-  stroke-width: 0.5;
+  r: 9;
 }
 
 .death {
@@ -530,7 +517,7 @@ main {
 }
 
 /* ===================================
-  Timeline Styles
+  Barchart Styles
  ===================================*/
 
 .axis {
@@ -553,37 +540,13 @@ main {
 }
 
 .timelineBar {
-  fill: indianred;
+  fill: orangered;
 }
 
 .timelineHover {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .timelineActive {
-  fill: black;
-}
-
-/* ===================================
-  Graph Styles
- ===================================*/
-
-.genderHover {
-  opacity: 0.5;
-}
-
-.genderActive {
-  fill: black;
-}
-
-.ageBar {
-  fill: mediumseagreen;
-}
-
-.ageHover {
-  opacity: 0.5;
-}
-
-.ageActive {
-  fill: black;
+  fill: grey;
 }
