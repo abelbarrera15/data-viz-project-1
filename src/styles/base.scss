@@ -455,7 +455,7 @@ main {
 }
 
 /* ===================================
-  Barchart Styles
+  Scatterplot Styles
  ===================================*/
 
 .axis {
@@ -469,22 +469,14 @@ main {
   shape-rendering: crispEdges;
 }
 
-.timelineDates {
-  text-anchor: end;
-}
-
-.timelineDates:hover {
-  cursor: default;
-}
-
-.timelineBar {
-  fill: orangered;
-}
-
-.timelineHover {
-  opacity: 0.2;
-}
-
-.timelineActive {
-  fill: grey;
+div.scatter-info {
+  position: absolute;
+  text-align: center;
+  padding: 0.5rem;
+  background: #ffffff;
+  color: #313639;
+  border: 1px solid #313639;
+  border-radius: 8px;
+  pointer-events: none;
+  font-size: 1.3rem;
 }
