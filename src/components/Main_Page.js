@@ -4,6 +4,7 @@ import deathdays from "../data_files/deathdays.csv";
 import deaths_age_sex from "../data_files/deaths_age_sex.csv";
 import pumpsLoc from "../data_files/pumps.csv";
 import { Row, Col, Container } from "react-bootstrap";
+import * as d3Lasso from "d3-lasso";
 
 
 const streetsJson = require("../data_files/streets.json");
@@ -19,8 +20,6 @@ const age = [
 ];
 
 const gender = ["male", "female"];
-
-let deathsData;
 
 let daysData;
 
@@ -440,6 +439,59 @@ const TimeSeries = () => {
           .duration('50')
           .style("opacity", 0);
         })
+
+        var lassoStart = function() {
+          lasso.items()
+                .attr("r",6) // reset size
+                .classed("not_possible",true)
+                .classed("selected",false);
+                console.log('I am here')
+        };
+
+        var lassoDraw = function () {
+          // Style the possible dots
+          lasso.possibleItems()
+          .classed("not_possible",false)
+          .classed("possible",true);
+
+      // Style the not possible dot
+      lasso.notPossibleItems()
+          .classed("not_possible",true)
+          .classed("possible",false);
+        }
+      
+        /**
+         * Called when lasso is done drawing
+         */
+        var lassoEnd = function () {
+          // Reset the color of all dots
+          lasso.items()
+            .classed('not_possible', false)
+            .classed('possible', false);
+      
+          // Style the selected dots
+          lasso.selectedItems()
+          .classed("selected",true)
+          .attr("r",7);
+
+      // Reset the style of the not selected dots
+          lasso.notSelectedItems()
+          .attr("r",3.5);
+        }
+
+
+
+        var lasso = d3Lasso.lasso()
+                .hoverSelect(true)
+                .closePathSelect(true)
+                .closePathDistance(100)
+                .targetArea(timeline)
+                .on('start', lassoStart)
+                .on('draw', lassoDraw)
+                .on('end', lassoEnd);
+
+        timeline.call(lasso)
+
         //.on("drag")
         // .on("click", onClick)
     });
@@ -610,7 +662,6 @@ const InitBarChart = () => {
         });
         saver = summer;
       });
-      deathsData = temp_set;
       PlotMap(temp_set);
       BarChart(temp_set);
     });

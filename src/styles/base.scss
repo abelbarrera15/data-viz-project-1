@@ -480,3 +480,15 @@ div.scatter-info {
   pointer-events: none;
   font-size: 1.3rem;
 }
+
+.selection {
+  stroke: gray;
+  stroke-width: 1px;
+  stroke-dasharray: 4px;
+  stroke-opacity: 0.5;
+  fill: transparent;
+}
+
+body {
+  font: 10px sans-serif;
+}
