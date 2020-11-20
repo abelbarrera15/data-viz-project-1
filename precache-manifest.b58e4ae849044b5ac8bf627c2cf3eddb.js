@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ac3045204a582893439640d08f934bb2",
+    "revision": "73787c17efb728054166622cc12a2b10",
     "url": "/data-viz-project-1/index.html"
   },
   {
-    "revision": "4f977b6af26a09a2d957",
-    "url": "/data-viz-project-1/static/css/main.e822e7a0.chunk.css"
+    "revision": "c88afd1a01a499f1f7c5",
+    "url": "/data-viz-project-1/static/css/main.79d35abd.chunk.css"
   },
   {
-    "revision": "fbcd4c9726d8f9743a73",
-    "url": "/data-viz-project-1/static/js/2.7e8c1ab5.chunk.js"
+    "revision": "887c40d83328a0a0b6c4",
+    "url": "/data-viz-project-1/static/js/2.6995db3c.chunk.js"
   },
   {
     "revision": "8ebb70227fec3b61ad3af3d99ebe8940",
-    "url": "/data-viz-project-1/static/js/2.7e8c1ab5.chunk.js.LICENSE.txt"
+    "url": "/data-viz-project-1/static/js/2.6995db3c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4f977b6af26a09a2d957",
-    "url": "/data-viz-project-1/static/js/main.3e27a1b6.chunk.js"
+    "revision": "c88afd1a01a499f1f7c5",
+    "url": "/data-viz-project-1/static/js/main.3e8a6d05.chunk.js"
   },
   {
     "revision": "87acf1fb8023c124ff57",

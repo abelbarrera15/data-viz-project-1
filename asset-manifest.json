@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/data-viz-project-1/static/css/main.e822e7a0.chunk.css",
-    "main.js": "/data-viz-project-1/static/js/main.3e27a1b6.chunk.js",
-    "main.js.map": "/data-viz-project-1/static/js/main.3e27a1b6.chunk.js.map",
+    "main.css": "/data-viz-project-1/static/css/main.79d35abd.chunk.css",
+    "main.js": "/data-viz-project-1/static/js/main.3e8a6d05.chunk.js",
+    "main.js.map": "/data-viz-project-1/static/js/main.3e8a6d05.chunk.js.map",
     "runtime-main.js": "/data-viz-project-1/static/js/runtime-main.945ca11a.js",
     "runtime-main.js.map": "/data-viz-project-1/static/js/runtime-main.945ca11a.js.map",
-    "static/js/2.7e8c1ab5.chunk.js": "/data-viz-project-1/static/js/2.7e8c1ab5.chunk.js",
-    "static/js/2.7e8c1ab5.chunk.js.map": "/data-viz-project-1/static/js/2.7e8c1ab5.chunk.js.map",
+    "static/js/2.6995db3c.chunk.js": "/data-viz-project-1/static/js/2.6995db3c.chunk.js",
+    "static/js/2.6995db3c.chunk.js.map": "/data-viz-project-1/static/js/2.6995db3c.chunk.js.map",
     "index.html": "/data-viz-project-1/index.html",
-    "precache-manifest.8e88cae2db6bbc447d22c6730cedaa90.js": "/data-viz-project-1/precache-manifest.8e88cae2db6bbc447d22c6730cedaa90.js",
+    "precache-manifest.b58e4ae849044b5ac8bf627c2cf3eddb.js": "/data-viz-project-1/precache-manifest.b58e4ae849044b5ac8bf627c2cf3eddb.js",
     "service-worker.js": "/data-viz-project-1/service-worker.js",
-    "static/css/main.e822e7a0.chunk.css.map": "/data-viz-project-1/static/css/main.e822e7a0.chunk.css.map",
-    "static/js/2.7e8c1ab5.chunk.js.LICENSE.txt": "/data-viz-project-1/static/js/2.7e8c1ab5.chunk.js.LICENSE.txt",
+    "static/css/main.79d35abd.chunk.css.map": "/data-viz-project-1/static/css/main.79d35abd.chunk.css.map",
+    "static/js/2.6995db3c.chunk.js.LICENSE.txt": "/data-viz-project-1/static/js/2.6995db3c.chunk.js.LICENSE.txt",
     "static/media/IUPUI_Logo_49.jpg": "/data-viz-project-1/static/media/IUPUI_Logo_49.a61793db.jpg",
     "static/media/deathdays.csv": "/data-viz-project-1/static/media/deathdays.91268c88.csv",
     "static/media/deaths_age_sex.csv": "/data-viz-project-1/static/media/deaths_age_sex.34591a29.csv",
@@ -20,8 +20,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.945ca11a.js",
-    "static/js/2.7e8c1ab5.chunk.js",
-    "static/css/main.e822e7a0.chunk.css",
-    "static/js/main.3e27a1b6.chunk.js"
+    "static/js/2.6995db3c.chunk.js",
+    "static/css/main.79d35abd.chunk.css",
+    "static/js/main.3e8a6d05.chunk.js"
   ]
 }
