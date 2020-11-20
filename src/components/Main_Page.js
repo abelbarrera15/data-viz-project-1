@@ -78,8 +78,8 @@ const CholeraMap = () => {
           .append("circle")
           .attr("cx", (d) => d.x * 45 - 45 * 3)
           .attr("cy", (d) => d.y * 45 - 45 * 3)
-          .attr("fill","cornflowerblue")
-          .attr("r",9)
+          .attr("fill","2a385b")
+          .attr("r",12)
       });
 
       // draw work house on map
@@ -417,10 +417,10 @@ const TimeSeries = () => {
         .enter()
         .append("circle")
         .attr("id", (d, i) => `timelineBar${i}`)
-        .attr("fill","orangered")
+        .attr("fill","#9e9cc2")
         .attr("cx", function (d) { return x(d.date); } )
         .attr("cy", function (d) { return y(d.deaths); } )
-        .attr("r", 4)
+        .attr("r", 5)
         .on("mouseover", function(d,i){
           scatterTip.transition()
           .duration('50')
@@ -612,9 +612,9 @@ const InitBarChart = () => {
               .attr("height", (d) => height - y(d))
               .attr("fill", function (d) {
                 if (internal_indexer === 0) {
-                  return "darkblue";
+                  return "#a17724";
                 } else {
-                  return "coral";
+                  return "#939cc2";
                 }
               });
           });
