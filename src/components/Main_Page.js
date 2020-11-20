@@ -5,6 +5,7 @@ import deaths_age_sex from "../data_files/deaths_age_sex.csv";
 import pumpsLoc from "../data_files/pumps.csv";
 import { Row, Col, Container } from "react-bootstrap";
 
+
 const streetsJson = require("../data_files/streets.json");
 
 //gen consts
@@ -17,17 +18,13 @@ const age = [
   "age 80+",
 ];
 
-let filter = {
-  date: null,
-  gender: null,
-  age: null,
-};
-
 const gender = ["male", "female"];
 
-let deathsData;
+let deathMap;
 
 let daysData;
+
+let beforeDate = 1;
 
 const CholeraMap = () => {
   const ref = useRef();
@@ -81,8 +78,8 @@ const CholeraMap = () => {
           .append("circle")
           .attr("cx", (d) => d.x * 45 - 45 * 3)
           .attr("cy", (d) => d.y * 45 - 45 * 3)
-          .attr("fill","cornflowerblue")
-          .attr("r",9)
+          .attr("fill","2a385b")
+          .attr("r",12)
       });
 
       // draw work house on map
@@ -352,12 +349,14 @@ const TimeSeries = () => {
 
   const ref = useRef();
   useEffect(() => {
+
     const timeline = d3
       .select(ref.current)
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  
 
     d3.csv(deathdays, function (data) {
       data.forEach(function (d) {
@@ -366,40 +365,6 @@ const TimeSeries = () => {
       });
 
       daysData = data;
-
-      const onMouseEnter = (d, index) => {
-        for (let i = 0; i <= index; i++) {
-          d3.select(`#timelineBar${i}`).classed("timelineHover", true);
-          d3.select(`#timelineDate${i}`).classed("timelineHover", true);
-        }
-      };
-  
-      const onMouseLeave = (d, index) => {
-        for (let i = 0; i <= index; i++) {
-          d3.select(`#timelineBar${i}`).classed("timelineHover", false);
-          d3.select(`#timelineDate${i}`).classed("timelineHover", false);
-        }
-      };
-  
-      const onClick = (d, index) => {
-        const isActive = d3.select(ref.current).classed("timelineActive");
-        if (isActive) {
-          d3.selectAll(".timelineActive").classed("timelineActive", false);
-          dynFilter({ date: null });
-          return;
-        }
-  
-        d3.selectAll(".timelineActive").classed("timelineActive", false);
-        for (let i = 0; i <= index; i++) {
-          d3.select(`#timelineBar${i}`).classed("timelineActive", true);
-        }
-  
-        let newDate = d3
-          .select(`#timelineDate${index}`)
-          .classed("timelineActive", true)
-          .data()[0];
-          dynFilter({ date: newDate });
-      };
 
       x.domain(data.map((d) => d.date));
       y.domain([0, d3.max(data, (d) => d.deaths)]);
@@ -412,7 +377,7 @@ const TimeSeries = () => {
         .attr("text-anchor", "end")
         .attr("font-family", "sans-serif")
         .attr("font-weight", "bold")
-        .text("Deaths Over Time Barchart");
+        .text("Deaths Over Time ScatterPlot");
 
       // label y-axis
       timeline
@@ -434,30 +399,58 @@ const TimeSeries = () => {
         .call(xAxis)
         .selectAll("text")
         .attr("id", (d, i) => `timelineDate${i}`)
-        .attr("class", "timelineDates")
+        .attr("text-anchor", "end")
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", "-.55em")
         .attr("transform", "rotate(-75)")
-        .on("mouseenter", onMouseEnter)
-        .on("mouseleave", onMouseLeave)
-        .on("click", onClick);
 
-      // add the bars for the barchart
+
+      var scatterTip = d3.select("body").append("div")
+      .attr("class", "scatter-info")
+      .style("opacity", 0);
+
+      // add the dots for the scatterplot
       timeline
-        .selectAll("bar")
+        .selectAll("circle")
         .data(data)
         .enter()
-        .append("rect")
+        .append("circle")
         .attr("id", (d, i) => `timelineBar${i}`)
-        .attr("class", "timelineBar")
-        .attr("x", (d) => x(d.date))
-        .attr("width", x.rangeBand())
-        .attr("y", (d) => y(d.deaths))
-        .attr("height", (d) => height - y(d.deaths))
-        .on("click", onClick)
-        .on("mouseenter", onMouseEnter)
-        .on("mouseleave", onMouseLeave);
+        .attr("fill","#9e9cc2")
+        .attr("cx", function (d) { return x(d.date); } )
+        .attr("cy", function (d) { return y(d.deaths); } )
+        .attr("r", 5)
+        .on("mouseover", function(d,i){
+          scatterTip.transition()
+          .duration('50')
+          .attr('opacity','.85');
+          scatterTip.transition()
+          .duration(50)
+          .style("opacity",'1');
+          scatterTip.html(d.deaths)
+          .style("left", (d3.event.pageX + 10) + "px")
+          .style("top", (d3.event.pageY - 15) + "px");
+
+          if (beforeDate === 1){
+            PlotMap(deathMap.filter(iter => iter.date <= d.date));
+          }
+
+          else {
+            PlotMap(deathMap.filter(iter => iter.date === d.date));
+          }
+        })
+        .on("mouseout",function(d,i){
+          scatterTip.transition()
+          .duration('50')
+          .style("opacity", 0);
+
+          PlotMap(deathMap);
+
+          })
+        
+
+
     });
   }, [
     height,
@@ -471,7 +464,32 @@ const TimeSeries = () => {
     y,
     yAxis,
   ]);
-  return <svg ref={ref}></svg>;
+
+  const dateSetter = () =>
+  {
+    if (beforeDate === 1){
+      beforeDate = 0
+    }
+    else {
+      beforeDate = 1
+    }
+  }
+
+  return <div>
+            <div
+            style={{
+            marginTop: "20px",
+            marginLeft: "400px"
+            }}
+            >
+            <Row>
+              <button onMouseDown={dateSetter}>Date Handler</button>
+            </Row>
+            </div>
+            <Row>
+              <svg ref={ref}></svg>
+            </Row>
+          </div>;
 };
 
 const InitBarChart = () => {
@@ -594,9 +612,9 @@ const InitBarChart = () => {
               .attr("height", (d) => height - y(d))
               .attr("fill", function (d) {
                 if (internal_indexer === 0) {
-                  return "darkblue";
+                  return "#a17724";
                 } else {
-                  return "coral";
+                  return "#939cc2";
                 }
               });
           });
@@ -626,9 +644,9 @@ const InitBarChart = () => {
         });
         saver = summer;
       });
-      deathsData = temp_set;
+      deathMap = temp_set
+      PlotMap(temp_set);
       BarChart(temp_set);
-      dynFilter();
     });
   }, []);
   return (
@@ -642,7 +660,7 @@ const InitBarChart = () => {
   );
 };
 
-const dynFilter = (newFilter) => {
+const PlotMap = (dataPoints) => {
   const onMouseEnter = (d) => {
     d3.select(".tooltip").classed("showTooltip", true);
   };
@@ -658,22 +676,11 @@ const dynFilter = (newFilter) => {
     d3.select(".tooltip").classed("showTooltip", false);
   };
 
-  filter = { ...filter, ...newFilter };
-
   d3.select("#deaths").selectAll("circle").remove();
 
   d3.select("#deaths")
     .selectAll("circle")
-    .data(
-      deathsData.filter(function (d) {
-        const matchesGender =
-          filter.gender === null || d.gender == filter.gender;
-        const matchesAge = filter.age === null || d.age == filter.age;
-        const matchesDate =
-          filter.date === null || d.date.getTime() <= filter.date.getTime();
-        return matchesGender && matchesAge && matchesDate;
-      })
-    )
+    .data(dataPoints)
     .enter()
     .append("circle")
     .attr("cx", (d) => d.x * 45 - 45 * 3)

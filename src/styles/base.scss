@@ -13,9 +13,6 @@
       max-height: 100%;
     }
   }
-  //background-color: #f5f5f5;
-  // background-color: #f5f6f8;
-  // height: 100% !important;
 }
 
 .padding-10 {
@@ -29,10 +26,6 @@
 .padding-20 {
   padding: 20px;
 }
-
-// .modal-dialog {
-//   max-width: 70%;
-// }
 
 /* FONTS */
 .page-content {
@@ -396,11 +389,11 @@ main {
 }
 
 .male {
-  fill: darkblue;
+  fill: #a17724;
 }
 
 .female {
-  fill: coral;
+  fill: #939cc2;
 }
 
 .tooltip {
@@ -443,19 +436,19 @@ main {
 }
 
 .pumpLabel::before {
-  background: cornflowerblue;
+  background: #2a385b;
 }
 
 .maleLabel::before {
-  background: darkblue;
+  background: #a17724;
 }
 
 .femaleLabel::before {
-  background: coral;
+  background: #939cc2;
 }
 
 /* ===================================
-  Barchart Styles
+  Scatterplot Styles
  ===================================*/
 
 .axis {
@@ -469,22 +462,14 @@ main {
   shape-rendering: crispEdges;
 }
 
-.timelineDates {
-  text-anchor: end;
-}
-
-.timelineDates:hover {
-  cursor: default;
-}
-
-.timelineBar {
-  fill: orangered;
-}
-
-.timelineHover {
-  opacity: 0.2;
-}
-
-.timelineActive {
-  fill: grey;
+div.scatter-info {
+  position: absolute;
+  text-align: center;
+  padding: 0.5rem;
+  background: #ffffff;
+  color: #313639;
+  border: 1px solid #313639;
+  border-radius: 8px;
+  pointer-events: none;
+  font-size: 1.3rem;
 }
