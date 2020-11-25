@@ -1,23 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e9826b92651ac9a58db2a41f873ac24c",
+    "revision": "31ee1398e2d9c5f99b769412b010bba7",
     "url": "/data-viz-project-1/index.html"
   },
   {
-    "revision": "850f24fb43ad4d875cd1",
-    "url": "/data-viz-project-1/static/css/main.79d35abd.chunk.css"
+    "revision": "4ce99484c280fe1548eb",
+    "url": "/data-viz-project-1/static/css/2.9f678f43.chunk.css"
   },
   {
-    "revision": "d2171263fbe9b82011e8",
-    "url": "/data-viz-project-1/static/js/2.4bd535ea.chunk.js"
+    "revision": "0894a8b1576fe6aba157",
+    "url": "/data-viz-project-1/static/css/main.91aca4f8.chunk.css"
+  },
+  {
+    "revision": "4ce99484c280fe1548eb",
+    "url": "/data-viz-project-1/static/js/2.db9cf286.chunk.js"
   },
   {
     "revision": "8ebb70227fec3b61ad3af3d99ebe8940",
-    "url": "/data-viz-project-1/static/js/2.4bd535ea.chunk.js.LICENSE.txt"
+    "url": "/data-viz-project-1/static/js/2.db9cf286.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "850f24fb43ad4d875cd1",
-    "url": "/data-viz-project-1/static/js/main.acd0fccb.chunk.js"
+    "revision": "0894a8b1576fe6aba157",
+    "url": "/data-viz-project-1/static/js/main.e1250112.chunk.js"
   },
   {
     "revision": "87acf1fb8023c124ff57",
@@ -36,8 +40,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/data-viz-project-1/static/media/deaths_age_sex.34591a29.csv"
   },
   {
-    "revision": "0d209b09e2039d7a908e7381e08168c9",
-    "url": "/data-viz-project-1/static/media/documentation.0d209b09.md"
+    "revision": "5266d1fd13541427868b673a47ab6b89",
+    "url": "/data-viz-project-1/static/media/documentation.5266d1fd.md"
   },
   {
     "revision": "729cd622993bf239ab344bde34ea485f",
