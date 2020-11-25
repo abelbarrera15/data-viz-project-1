@@ -754,22 +754,21 @@ const MainPage = (
       <Col sm={6}>
         <div>
           <Row>
-            <div
-            style={{
+            <div style={{
               paddingLeft:"30px"
             }}>
               Pump Distance Slider
-          <SliderInput min={0} max={5} step={0.5} onChange={handleChange}>
-            <SliderTrack>
-          {new Array(11).fill("x").map((x, index) => (
-          <SliderMarker value={index * 0.5}>
-            <span>{index * 0.5}</span>
-            <SliderTrackHighlight />
-          </SliderMarker>
-            ))}
-            </SliderTrack>
-          </SliderInput>
-          </div>
+              <SliderInput min={0} max={5} step={0.5} onChange={handleChange}>
+                <SliderTrack>
+                  {new Array(11).fill("x").map((x, index) => (
+                  <SliderMarker value={index * 0.5}>
+                    <span>{index * 0.5}</span>
+                    <SliderTrackHighlight />
+                  </SliderMarker>
+                    ))}
+                </SliderTrack>
+              </SliderInput>
+            </div>
             <Container>
               <CholeraMap />
             </Container>
