@@ -4,6 +4,13 @@ import deathdays from "../data_files/deathdays.csv";
 import deaths_age_sex from "../data_files/deaths_age_sex.csv";
 import pumpsLoc from "../data_files/pumps.csv";
 import { Row, Col, Container } from "react-bootstrap";
+import {
+  SliderInput,
+  SliderTrack,
+  SliderTrackHighlight,
+  SliderMarker,
+} from "@reach/slider";
+import "@reach/slider/styles.css";
 
 
 const streetsJson = require("../data_files/streets.json");
@@ -25,6 +32,8 @@ let deathMap;
 let daysData;
 
 let beforeDate = 1;
+
+let pumpData;
 
 const CholeraMap = () => {
   const ref = useRef();
@@ -80,6 +89,8 @@ const CholeraMap = () => {
           .attr("cy", (d) => d.y * 45 - 45 * 3)
           .attr("fill","2a385b")
           .attr("r",12)
+
+        pumpData = data;
       });
 
       // draw work house on map
@@ -656,6 +667,15 @@ const InitBarChart = () => {
       daysData.forEach(function (d) {
         let summer = 0;
         d_set.forEach(function (d_inner) {
+          let pumpDist = undefined;
+          pumpData.forEach(function (d_pump) {
+            if (pumpDist === undefined) {
+              pumpDist = Math.sqrt(((d_inner.x - d_pump.x)**2) + ((d_inner.y - d_pump.y)**2));
+            }
+            else if (pumpDist > Math.sqrt(((d_inner.x - d_pump.x)**2) + ((d_inner.y - d_pump.y)**2)) ) {
+              pumpDist = Math.sqrt(((d_inner.x - d_pump.x)**2) + ((d_inner.y - d_pump.y)**2));
+            }
+          })
           if (summer < saver) {
             summer = summer + 1;
           }
@@ -666,13 +686,13 @@ const InitBarChart = () => {
               age: d_inner.age,
               gender: d_inner.gender,
               date: d.date,
+              pumpdist: pumpDist
             });
             summer = summer + 1;
           }
         });
         saver = summer;
       });
-      //console.log(temp_set);
       deathMap = temp_set
       PlotMap(temp_set);
       BarChart(temp_set);
@@ -720,12 +740,33 @@ const PlotMap = (dataPoints) => {
     .on("mousemove", onMouseMove);
 };
 
+const handleChange = (newValue) => {
+  PlotMap(deathMap.filter(iter => iter.pumpdist <= newValue.toFixed(2) ));
+}
+
+
 const MainPage = (
   <div>
     <Row>
       <Col sm={6}>
         <div>
           <Row>
+            <div
+            style={{
+              paddingLeft:"30px"
+            }}>
+              <h6>Pump Distance Slider</h6>
+          <SliderInput min={0} max={5} step={0.5} onChange={handleChange}>
+            <SliderTrack>
+          {new Array(11).fill("x").map((x, index) => (
+          <SliderMarker value={index * 0.5}>
+            <span>{index * 0.5}</span>
+            <SliderTrackHighlight />
+          </SliderMarker>
+            ))}
+            </SliderTrack>
+          </SliderInput>
+          </div>
             <Container>
               <CholeraMap />
             </Container>
