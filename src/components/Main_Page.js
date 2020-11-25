@@ -27,6 +27,8 @@ const age = [
 
 const gender = ["male", "female"];
 
+// let pumpDeaths = 0;
+
 let deathMap;
 
 let daysData;
@@ -742,6 +744,7 @@ const PlotMap = (dataPoints) => {
 
 const handleChange = (newValue) => {
   PlotMap(deathMap.filter(iter => iter.pumpdist <= newValue.toFixed(2) ));
+  // pumpDeaths = deathMap.filter(iter => iter.pumpdist <= newValue.toFixed(2)).length;
 }
 
 

@@ -24,7 +24,7 @@ This project was initiated by Prof. Khairi Reda at IUPUI's class H517. All data 
 
 An image of my original sketch can be found [HERE](https://ksmconsulting-my.sharepoint.com/:i:/p/aduran/EZHCYWVu7plLkMj5Wzd6LNgB1JSK9J0mhy1--c1SLWGxBQ?e=F4sIyp).
 
-As can be seen, this is not where my final visual ended up, but there are reasons for this! The primary change between my initial design and the final version was that I had thought of making separate gender and age charts. But as it turned out, since deaths were the same it made no sense to have a single graph because the visual did not show us anything. So then I grouped age and gender into a single graph. This showed a much more interesting way of seeing things as compared to the initial proposal because it seemed the interaction between age and gender was more intersting than their separate representations.
+As can be seen, this is not where my final visual ended up, but there are reasons for this! The primary change between my initial design and the final version was that I had thought of making separate gender and age charts. But as it turned out, since deaths were the same it made no sense to have a single graph because the visual did not show us anything. So then I grouped age and gender into a single graph. This showed a much more interesting way of seeing things as compared to the initial proposal because it seemed the interaction between age and gender was more intersting than their separate representations. Additionally, I found it to be interesting to visualize how many people died as they were closer or further away from the pumps!
 
 #### The Colors
 
