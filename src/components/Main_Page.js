@@ -572,7 +572,13 @@ const InitBarChart = () => {
           .attr("font-weight", "bold")
           .text("Deaths by Age Range and Gender");
 
+        var scatterTipGenderAge = d3.select("body").append("div")
+          .attr("class", "scatter-info")
+          .style("opacity", 0);
+
         let data_indexer = null;
+
+        var dict = new Map();
 
         totalAgeDeathsMaleFemale.forEach(function (i1) {
           let internal_indexer = null;
@@ -594,6 +600,7 @@ const InitBarChart = () => {
               .enter()
               .append("rect")
               .attr("id", function (d) {
+                dict.set(d,[internal_indexer,data_indexer]);
                 return `ageBar${parseInt(
                   data_indexer.toString() + internal_indexer.toString()
                 )}`;
@@ -611,12 +618,33 @@ const InitBarChart = () => {
               .attr("width", x.rangeBand())
               .attr("height", (d) => height - y(d))
               .attr("fill", function (d) {
-                if (internal_indexer === 0) {
+                if (internal_indexer === 0) { //male
                   return "#a17724";
                 } else {
-                  return "#939cc2";
+                  return "#939cc2"; //female
                 }
-              });
+              })
+              .on("mouseover", function(d,i){
+                scatterTipGenderAge.transition()
+                .duration('50')
+                .attr('opacity','.85');
+                scatterTipGenderAge.transition()
+                .duration(50)
+                .style("opacity",'1');
+                scatterTipGenderAge.html(d)
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY - 15) + "px");
+
+                PlotMap(deathMap.filter(iter => iter.age.toString() === dict.get(d)[1].toString() && iter.gender.toString() === dict.get(d)[0].toString() ));
+              })
+              .on("mouseout",function(d,i){
+                scatterTipGenderAge.transition()
+                .duration('50')
+                .style("opacity", 0);
+
+                PlotMap(deathMap);
+
+                });
           });
         });
       };
@@ -644,6 +672,7 @@ const InitBarChart = () => {
         });
         saver = summer;
       });
+      //console.log(temp_set);
       deathMap = temp_set
       PlotMap(temp_set);
       BarChart(temp_set);
