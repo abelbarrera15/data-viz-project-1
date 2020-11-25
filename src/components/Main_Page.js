@@ -755,7 +755,7 @@ const MainPage = (
             style={{
               paddingLeft:"30px"
             }}>
-              <h6>Pump Distance Slider</h6>
+              Pump Distance Slider
           <SliderInput min={0} max={5} step={0.5} onChange={handleChange}>
             <SliderTrack>
           {new Array(11).fill("x").map((x, index) => (
